@@ -1,0 +1,15 @@
+<% content_for :title, 'アカウントの有効化' %>
+
+<div id="Reset">
+<div class="row">
+<div class="medium-6 medium-centered columns">
+
+  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+    <%= devise_error_messages! %>
+    <%= f.email_field :email, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: 'radius', placeholder: 'email' %>
+    <%= f.submit '本人確認用メールを再送信', class: 'button radius expand' %>
+  <% end %>
+
+</div>
+</div>
+</div>

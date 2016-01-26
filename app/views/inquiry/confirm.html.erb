@@ -1,0 +1,17 @@
+<% content_for :title, 'お問い合わせ' %>
+
+<div id="Setting">
+<div class="row">
+<div class="medium-6 medium-centered columns">
+  
+  <h4>この内容でよろしいですか？</h4>
+  <%= form_for @inquiry, :url => inquiry_complete_path do |f| %>
+    <%= f.text_field :name, class: 'radius', value:@inquiry.name %>
+    <%= f.email_field :email, class: 'radius', value:@inquiry.email %>
+    <%= f.text_area :message, rows: 10, class: 'radius', value:@inquiry.message %>
+    <%= f.submit "送信", class: 'button radius expand' %>
+  <% end %>
+
+</div>
+</div>
+</div>

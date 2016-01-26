@@ -1,0 +1,302 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require foundation
+ *= require font-awesome
+ *= require_self
+ */
+
+/*------------------------------------------------------------------------------
+html5doctor.com Reset v1.6.1 - http://cssreset.com
+------------------------------------------------------------------------------*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
+/*------------------------------------------------------------------------------
+base
+------------------------------------------------------------------------------*/
+@font-face {
+  font-family: "BrownRegular";
+  src:font-url("lineto-brown-regular.woff");
+}
+html {
+  -webkit-font-smoothing: antialiased; //アンチエイリアス調整
+  -webkit-text-size-adjust: 100%; //文字サイズ自動調整OFF
+}
+body {
+  font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+  font-size: 100%;//16px
+  line-height: 1.5;
+  color: #fff;
+  background: #000;
+  word-break: break-all; //半角英数字折り返す
+  -webkit-touch-callout:none; //リンク長押しのポップアップを無効化
+  //-webkit-user-select:none;   //テキスト長押しの選択ボックスを無効化
+}
+a {
+  color: #990099;
+  outline:none; //点線ハック
+  -webkit-tap-highlight-color: rgba(0,0,0,0); //タップカラー
+}
+a:hover,
+a:focus{
+  color: #990099;
+}
+a.disable {
+  cursor: default;
+}
+li {
+  list-style: none;
+}
+hr {
+  margin: 0;
+  border: 0;
+  height: 1px;
+  background: #000;
+}
+img {
+  display: block; //隙間ハック
+}
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+}
+.clearfix:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+.text-hide {
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+h1,h2,h3,h4,h5,h6 {
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+label {
+  color: #fff;
+  display: inline;
+}
+div,p {
+  margin-bottom: 0;
+}
+.text-small {
+  font-size: 0.75rem;
+}
+::-webkit-input-placeholder {
+  color: #ccc;
+}
+::-moz-placeholder {
+  color: #ccc;
+}
+:-ms-input-placeholder {
+  color: #ccc;
+}
+/*------------------------------------------------------------------------------
+input
+------------------------------------------------------------------------------*/
+input:not([type]), input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], input[type="color"], textarea {
+  border: 2px solid #990099;
+}
+input:not([type]):focus, input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="month"]:focus, input[type="week"]:focus, input[type="email"]:focus, input[type="number"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="time"]:focus, input[type="url"]:focus, input[type="color"]:focus, textarea:focus {
+  border: 2px solid #990099;
+}
+input:not([type])[readonly], input[type="text"][readonly], input[type="password"][readonly], input[type="date"][readonly], input[type="datetime"][readonly], input[type="datetime-local"][readonly], input[type="month"][readonly], input[type="week"][readonly], input[type="email"][readonly], input[type="number"][readonly], input[type="search"][readonly], input[type="tel"][readonly], input[type="time"][readonly], input[type="url"][readonly], input[type="color"][readonly], textarea[readonly] {
+  background-color: #dce;
+}
+  
+button, .button {
+  color: #fff;
+  font-weight: bold;
+  background: #333;
+  margin-bottom: 0;
+}
+button:hover, button:focus, .button:hover, .button:focus {
+  background: #444;
+}
+button.expand, .button.expand {
+  padding: 0.625rem;
+}
+/*------------------------------------------------------------------------------
+radio,checkbox
+------------------------------------------------------------------------------*/
+input[type="radio"].radio,
+input[type="checkbox"].checkbox {
+  display: none;
+}
+input[type="radio"].radio + label,
+input[type="checkbox"].checkbox + label {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 1rem;
+}
+input[type="radio"].radio + label::before,
+input[type="checkbox"].checkbox + label::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin-top: -9px;
+  background: #FFF;
+}
+input[type="radio"].radio + label::before {
+  border: 2px solid #990099;
+  border-radius: 30px;
+}
+input[type="checkbox"].checkbox + label::before {
+  border: 2px solid #990099;
+}
+input[type="radio"].radio:checked + label::after,
+input[type="checkbox"].checkbox:checked + label::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: block;
+}
+input[type="radio"].radio:checked + label::after {
+  left: 5px;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  background: #609;
+  border-radius: 8px;
+}
+input[type="checkbox"].checkbox:checked + label::after {
+  left: 3px;
+  width: 16px;
+  height: 8px;
+  margin-top: -8px;
+  border-left: 3px solid #609;
+  border-bottom: 3px solid #609;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+/*------------------------------------------------------------------------------
+error
+------------------------------------------------------------------------------*/
+.alert-box {
+  position: absolute;
+  width: 100%;
+  height: 45px;
+  color: #fff;
+  border: #990099;
+  background: #990099;
+  z-index: 999;
+}
+.error_explanation {
+  color: #000;
+}
+/*------------------------------------------------------------------------------
+layut
+------------------------------------------------------------------------------*/
+nav.tab-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  color: #666;
+  background: #222;
+}
+nav.tab-bar h1 a,
+nav.tab-bar h1 a:hover {
+  color: #990099;
+  font-size: 1rem;
+}
+nav.tab-bar h1 a span {
+  color: #666;
+  font-size: 0.75rem;
+}
+aside .icon-bar a i,
+aside .icon-bar a:hover i {
+  color: rgba(255, 255, 255, 0.7);
+}
+aside .copyright {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  text-align: center;
+}
+.move-left .exit-off-canvas {
+  box-shadow: -2px 0 2px rgba(0, 0, 0, 0.5), 2px 0 2px rgba(0, 0, 0, 0.5);
+}
+ul.off-canvas-list li label {
+  text-transform: none;
+}
+/*------------------------------------------------------------------------------
+Main
+------------------------------------------------------------------------------*/
+#Main {
+  margin-top: 45px;
+  width: 100vw;
+  min-height: 100vh;
+  color: #fff;
+  background: #cc66ff;
+}
+/*------------------------------------------------------------------------------
+Top
+------------------------------------------------------------------------------*/
+#Top {
+  padding: 20px 0;
+  text-align: center;
+}
+#Top h1 {
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: 1.75rem;
+  text-shadow: 1px 2px 0px rgba(0,0,0,0.1)
+}
+/*------------------------------------------------------------------------------
+Home
+------------------------------------------------------------------------------*/
+#Home,
+#Reset,
+#Setting,
+#Score,
+#User{
+  padding: 20px 0;
+}
+/*------------------------------------------------------------------------------
+Signup
+------------------------------------------------------------------------------*/
+#Signup {
+  padding: 20px 0;
+}
+#Signup h1 {
+  margin-bottom: 10px;
+}
+#Signup input[type="submit"] {
+  margin-bottom: 10px;
+}
+/*------------------------------------------------------------------------------
+Login
+------------------------------------------------------------------------------*/
+#Login {
+  padding: 20px 0;
+}
+#Login input[type="submit"] {
+  margin-bottom: 10px;
+}
+

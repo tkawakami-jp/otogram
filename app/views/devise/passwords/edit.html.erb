@@ -1,0 +1,17 @@
+<% content_for :title, 'パスワードを忘れた' %>
+
+<div id="Reset">
+<div class="row">
+<div class="medium-6 medium-centered columns">
+
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+    <%= devise_error_messages! %>
+    <%= f.hidden_field :reset_password_token %>
+    <%= f.password_field :password, class: 'radius', placeholder: 'New password' %>
+    <%= f.password_field :password_confirmation, class: 'radius', placeholder: 'Confirm new password' %>
+    <%= f.submit "パスワード再設定", class: 'button radius expand' %>
+  <% end %>
+
+</div>
+</div>
+</div>

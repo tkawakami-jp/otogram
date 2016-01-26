@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/ActsAsParanoid/acts_as_paranoid.git
+  revision: ab31723bc11c82bac144cfabd4631b26307bfde1
+  specs:
+    acts_as_paranoid (0.5.0.beta2)
+      activerecord (~> 4.0)
+      activesupport (~> 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -37,10 +45,12 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
+    bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (8.2.1)
+    coderay (1.1.0)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
@@ -50,8 +60,20 @@ GEM
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.0)
     debug_inspector (0.0.2)
+    devise (3.5.5)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.6.0)
+    font-awesome-rails (4.5.0.0)
+      railties (>= 3.2, < 5.0)
+    foundation-rails (5.5.3.2)
+      railties (>= 3.1.0)
+      sass (>= 3.3.0, < 3.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -67,12 +89,27 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    method_source (0.8.2)
     mime-types (2.99)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_json (1.11.2)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    orm_adapter (0.5.0)
+    pg (0.18.4)
+    pry (0.10.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-byebug (3.3.0)
+      byebug (~> 8.0)
+      pry (~> 0.10)
+    pry-doc (0.8.0)
+      pry (~> 0.9)
+      yard (~> 0.8)
+    pry-rails (0.3.4)
+      pry (>= 0.9.10)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -102,6 +139,8 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.5.0)
     rdoc (4.2.1)
+    responders (2.1.1)
+      railties (>= 4.2.0, < 5.1)
     sass (3.4.21)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -112,6 +151,10 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    seed_dump (3.2.4)
+      activerecord (>= 4)
+      activesupport (>= 4)
+    slop (3.6.0)
     spring (1.6.2)
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
@@ -124,33 +167,42 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.2)
-    turbolinks (2.5.3)
-      coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    warden (1.2.4)
+      rack (>= 1.0)
     web-console (2.2.1)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    yard (0.8.7.6)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_paranoid!
   byebug
   coffee-rails (~> 4.1.0)
+  devise (~> 3.5.2)
+  font-awesome-rails (~> 4.5.0.0)
+  foundation-rails (~> 5.5.3.2)
   jbuilder (~> 2.0)
   jquery-rails
+  pg
+  pry-byebug
+  pry-doc
+  pry-rails
   rails (= 4.2.5.1)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  seed_dump
   spring
   sqlite3
-  turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
 

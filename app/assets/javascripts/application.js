@@ -12,5 +12,22 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+//= require foundation
+
+(function(){
+  
+  var winW = window.innerWidth+'px';
+  var winH = window.innerHeight+'px';
+  
+  //DOMが構築されたら実行される。
+  $(document).ready(function() {
+    $(document).foundation();
+    $('.alert-box').fadeOut(3000);
+  });
+
+  //全ファイルが読み込まれたら実行される。
+  $(window).on('load', function() {
+      
+  });
+  
+}());

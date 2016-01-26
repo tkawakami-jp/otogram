@@ -1,0 +1,27 @@
+<% content_for :title, 'お問い合わせ' %>
+
+<div id="Setting">
+<div class="row">
+<div class="medium-6 medium-centered columns">
+  
+  <%= form_for @inquiry, :url => inquiry_confirm_path do |f| %>
+    <% if @inquiry.errors.any? %>
+      <div class="error_explanation">
+        <ul>
+          <% @inquiry.errors.each do |attr, msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <%= f.text_field :name, class: 'radius', placeholder: '名前' %>
+    <%= f.email_field :email, class: 'radius', placeholder: 'メールアドレス' %>
+    <%= f.text_area :message, rows: 10, class: 'radius', placeholder: 'お問い合わせ内容' %>
+    <%= f.submit "確認", class: 'button radius expand' %>
+    
+  <% end %>
+
+</div>
+</div>
+</div>

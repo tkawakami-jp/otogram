@@ -1,0 +1,16 @@
+<% content_for :title, 'Mario' %>
+
+<style>
+.game {
+  margin:0; padding:0; border:0;
+  left:0; top:0;
+}
+</style>
+
+<div id="console" style="position: relative; margin:45px auto 0; padding:0px; border:0px;">
+  <canvas id="layer1" class="game" style="position: static; z-index: 0; opacity:1"></canvas>
+  <canvas id="layer2" class="game" style="position: absolute; z-index: 1;"></canvas>
+  <image id="spinner" src="image/loading_transparent_.gif" width="46px" style="position: absolute; top:35%; left:47%; z-index:4;" />
+</div>
+
+<script src="mario.js"></script>

@@ -1,14 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <title>Otogram</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <%= csrf_meta_tags %>
+  <title><%= content_for?(:title) ? yield(:title)+' | '+ Constants::SERVICE_NAME : Constants::SERVICE_NAME %></title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= yield :style %>
 </head>
 <body>
+<div class="off-canvas-wrap" data-offcanvas>
+<div class="inner-wrap">
+  
+  <!--alert-->
+  <%= render 'shared/flash_messages' %>
+  
+  <!--navi-->
+  <nav class="tab-bar">
+    <section class="middle tab-bar-section">
+      <h1><%= link_to root_path do %><%= Constants::SERVICE_NAME[0,5] %> <span><%= Constants::SERVICE_NAME[5,3] %></span><% end %></h1>
+    </section>
+    <section class="right-small">
+      <a class="right-off-canvas-toggle menu-icon" href="#"><span></span></a>
+    </section>
+  </nav>
+  <aside class="right-off-canvas-menu">
+    <ul class="off-canvas-list">
+      <% if user_signed_in? %> 
+        <li><%= link_to current_user.username, user_path(current_user.username) %></li>
+        <li><%= link_to '新規作曲', new_score_path %></li>
+        <li><%= link_to 'aaa', edit_score_path(1) %></li>
+        <li><%= link_to 'MARIO', mario_path %></li>
+        <li><%= link_to 'MARIO2', mario2_path %></li>
+        <li><%= link_to 'アカウント設定', edit_user_registration_path %></li>
+        <li><%= link_to 'ログアウト', destroy_user_session_path, method: 'delete' %></li>
+      <% else %>
+        <li><%= link_to '新規登録', new_user_registration_path %></li>
+        <li><%= link_to 'ログイン', new_user_session_path %></li>
+      <% end %>
+        <li>
+          <div class="icon-bar three-up">
+            <a class="item" href="https://twitter.com/takabo_beta" target="target"><i class="fa fa-twitter"></i></a>
+            <a class="item" href="http://takabo-beta.hatenablog.com/" target="target"><i class="fa fa-pencil"></i></a>
+            <a class="item" href="<%= inquiry_path %>"><i class="fa fa-envelope"></i></a>
+          </div>
+        </li>
+        <li class="copyright">&copy <%= Date.today.year %> <%= Constants::SERVICE_NAME %></li>
+    </ul>
+  </aside>
 
-<%= yield %>
+  <!--main-->
+  <section class="main-section">
+    <div id="Main">
+    <%= yield %>
+    </div>
+  </section>
+
+<a class="exit-off-canvas"></a>
+</div>
+</div>
+  
+<%= javascript_include_tag "vendor/modernizr" %>
+<%= javascript_include_tag 'application' %>
+<%= yield :javascript %>
+<%= yield :script %>
+
+<% if Rails.env == 'production' %>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-72309284-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<% end %>
 
 </body>
 </html>

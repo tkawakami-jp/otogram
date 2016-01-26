@@ -1,0 +1,27 @@
+<% content_for :title, '新規登録' %>
+
+<div id="Signup">
+<div class="row">
+<div class="medium-6 medium-centered columns">
+
+<!--
+  <h1><%= Constants::SERVICE_NAME %>をはじめよう</h1>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= devise_error_messages! %>
+    <%= f.text_field :username, class: 'radius', placeholder: 'username' %>
+    <%= f.email_field :email, class: 'radius', placeholder: 'email' %>
+    <%= f.password_field :password, class: 'radius', placeholder: 'password' %>
+    <%= f.submit '新規登録', class: 'button radius expand' %>
+  <% end %>
+  <p class="text-center text-small">gmail.com ドメインから確認メールが届きます。</p>
+-->
+  <h1>新規登録</h1>
+  <p>
+    テスト運用中のため一般公開はもう少し先になります。
+    フィードバック等をお手伝いいただける方を随時募集してます。
+    もしよろしければ、ご協力お願いします。
+    <a href="<%= inquiry_path %>"><i class="fa fa-envelope"></i></a>
+  </p>
+</div>
+</div>
+</div>

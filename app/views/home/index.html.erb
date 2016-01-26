@@ -1,0 +1,43 @@
+<% if user_signed_in? %>
+  <% content_for :title, 'Home' %>
+  <div id="Home">
+  <div class="row">
+  <div class="medium-8 medium-centered columns">
+    <h1>Home</h1>
+    <% if @scores.any? %>
+      <% @scores.each do |score| %>
+        <%= link_to score.name, score_path(score) %>
+        <% if current_user == score.user %>
+          <span class="text-small"><%= link_to '編集', edit_score_path(score) %></span>
+          <span class="text-small"><%= link_to '削除', score, method: :delete, data: { confirm: '本当に削除しますか？' } %></span>
+        <% end %>
+        <br>
+      <% end %>
+    <% end %>
+  </div>
+  </div>
+  </div>
+<% else %>
+  <% content_for :script do %><%= javascript_include_tag 'showScore.js' %><% end %>
+  <div id="Top">
+  <div class="row">
+  <div class="medium-8 medium-centered columns">
+    <h1>ONLINE<br>シンプル作曲サービス<!--Your song, everywhere.--></h1>
+    <p>〜 限定公開でテスト運用中 〜</p>
+    
+    <% if @score.present? %>
+    <div style="margin-top:20px;">
+      <h1 style="font-size:16px;"><%= link_to @score.name, score_path(@score), style:'color:#fff;text-decoration:underline;' %></h1>
+      <canvas id="Canvas"></canvas>
+      <span id="Data" data-score=<%= @score.data %>></span>
+      <div class="text-center">
+        <button type="button" id="Play" class="button radius tiny">Play</button>
+        <button type="button" id="Stop" class="button radius tiny">Stop</button>
+      </div>
+    </div>
+    <% end %>
+    
+  </div>
+  </div>
+  </div>
+<% end %>

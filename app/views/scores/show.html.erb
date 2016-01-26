@@ -1,0 +1,29 @@
+<% content_for :title, @score.name %>
+<% content_for :style do %><%= stylesheet_link_tag 'score' %><% end %>
+<% content_for :script do %><%= javascript_include_tag 'showScore.js' %><% end %>
+
+<div id="Score">
+<div class="row">
+<div class="medium-8 medium-centered columns">
+
+<div class="wrapper">
+  
+  <h1>
+    <%= @score.name %>
+    <% if current_user == @score.user %>
+      <span class="text-small"><%= link_to '編集', edit_score_path(@score) %></span>
+      <span class="text-small"><%= link_to '削除', @score, method: :delete, data: { confirm: '本当に削除しますか？' } %></span>
+    <% end %>
+  </h1>
+  <canvas id="Canvas"></canvas>
+  <span id="Data" data-score=<%= @score.data %>></span>
+
+  <div class="text-center">
+    <button type="button" id="Play" class="button radius tiny">Play</button>
+    <button type="button" id="Stop" class="button radius tiny">Stop</button>
+  </div>
+
+</div>
+</div>
+</div>
+</div>
