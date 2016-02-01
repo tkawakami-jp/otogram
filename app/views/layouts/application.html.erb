@@ -12,10 +12,10 @@
 <body>
 <div class="off-canvas-wrap" data-offcanvas>
 <div class="inner-wrap">
-  
+
   <!--alert-->
   <%= render 'shared/flash_messages' %>
-  
+
   <!--navi-->
   <nav class="tab-bar">
     <section class="middle tab-bar-section">
@@ -27,12 +27,9 @@
   </nav>
   <aside class="right-off-canvas-menu">
     <ul class="off-canvas-list">
-      <% if user_signed_in? %> 
+      <% if user_signed_in? %>
         <li><%= link_to current_user.username, user_path(current_user.username) %></li>
         <li><%= link_to '新規作曲', new_score_path %></li>
-        <li><%= link_to 'aaa', edit_score_path(1) %></li>
-        <li><%= link_to 'MARIO', mario_path %></li>
-        <li><%= link_to 'MARIO2', mario2_path %></li>
         <li><%= link_to 'アカウント設定', edit_user_registration_path %></li>
         <li><%= link_to 'ログアウト', destroy_user_session_path, method: 'delete' %></li>
       <% else %>
@@ -60,7 +57,7 @@
 <a class="exit-off-canvas"></a>
 </div>
 </div>
-  
+
 <%= javascript_include_tag "vendor/modernizr" %>
 <%= javascript_include_tag 'application' %>
 <%= yield :javascript %>
