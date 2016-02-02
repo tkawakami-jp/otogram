@@ -51,14 +51,13 @@ end
 gem 'pry-rails'
 gem 'pry-doc'
 gem 'pry-byebug'
+gem 'seed_dump'
 
 gem 'foundation-rails', '~> 5.5.3.2'
 gem 'font-awesome-rails', '~> 4.5.0.0'
 
 gem 'devise', '~> 3.5.2'
 gem 'acts_as_paranoid', github: 'ActsAsParanoid/acts_as_paranoid' #0.5.0.beta2 論理削除
-
-gem 'seed_dump'
 
 group :development do
 

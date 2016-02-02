@@ -1,6 +1,7 @@
-class InquiryMailer < ApplicationMailer
+class SendMailer < ApplicationMailer
 
-  def received_email(inquiry)
+  #お問い合わせ
+  def inquiry_email(inquiry)
     @inquiry = inquiry
     mail(
       :to      => 'takabo.beta@gmail.com',
