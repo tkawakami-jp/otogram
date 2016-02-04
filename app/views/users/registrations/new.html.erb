@@ -4,9 +4,25 @@
 <div class="row">
 <div class="medium-6 medium-centered columns">
 
-  <h1>新規登録</h1>
-  <p>クローズドβ版のため、すでにご利用いただいている皆様から招待通知を受け取るか、下記の入力フォームにメールアドレスをご登録してお待ちください。メールアドレスをご登録いただいた方には順次ご連絡を差し上げます。</p>
-  <p class="text-center text-small" style="margin-top:0.75rem;font-weight:bold;">（※gmail.com ドメインから確認メールが届きます。）</p>
+  <% if @invite.present? %>
+    <%= @invite.token %><br>
+    <%= @invite.sender_id %>
+    <h1><%= Constants::SERVICE_NAME %>へようこそ！</h1>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
+      <%= f.text_field :username, class: 'radius', placeholder: 'username' %>
+      <%= f.email_field :email, class: 'radius', placeholder: 'email', value: @invite.email, readonly: 'readonly' %>
+      <%= f.password_field :password, class: 'radius', placeholder: 'password' %>
+      <%= f.hidden_field :invite_token, value: @invite.token %>
+      <%= f.hidden_field :invited_by_id, value: @invite.sender_id %>
+      <%= f.submit '新規登録', class: 'button radius expand' %>
+    <% end %>
+    <p class="text-center text-small">gmail.com ドメインから確認メールが届きます。</p>
+  <% else %>
+    <h1>新規登録</h1>
+    <p>すでにご利用いただいている皆様から招待通知を受け取るか、下記の入力フォームにメールアドレスをご登録してお待ちください。メールアドレスをご登録いただいた方には順次ご連絡を差し上げます。</p>
+    <p class="text-center text-small" style="margin-top:0.75rem;font-weight:bold;">（※gmail.com ドメインから確認メールが届きます。）</p>
+  <% end %>
 
 </div>
 </div>

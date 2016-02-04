@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, #:validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable,
          :confirmable
 
   #メアド変更確認メールのテンプレート変更用
@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   validates :username,
     presence: true,                     # 必須
     #uniqueness: true,                  # ユニーク(validates_uniqueness_of_without_deletedで処理)
-    length: { maximum: 16 },            # 16文字
+    length: { minimum: 3, maximum: 16 },# 3-16文字
     format: { with: /\A[a-z0-9]+\z/i }, # 半角英数字のみ
     :exclusion => %w(otogram staff admin top home user users inquiry inquiries score scores)
 
