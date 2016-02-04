@@ -31,6 +31,7 @@
         <li><%= link_to current_user.username, user_path(current_user.username) %></li>
         <li><%= link_to '新規作曲', new_score_path %></li>
         <li><%= link_to 'アカウント設定', edit_user_registration_path %></li>
+        <li><%= link_to '友達を招待', new_invite_path %></li>
         <li><%= link_to 'ログアウト', destroy_user_session_path, method: 'delete' %></li>
       <% else %>
         <li><%= link_to '新規登録', new_user_registration_path %></li>

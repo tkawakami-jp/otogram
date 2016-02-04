@@ -15,11 +15,13 @@ Rails.application.routes.draw do
 
   resources :scores
 
+  resources :invites, only: [:new,:create]
+
   get  'mario' => 'mario#index'
   get  'mario2' => 'mario#index2'
 
   get '/users'     => 'users#index', as:'users'
   get '/:username' => 'users#show',  as:'user'#!最後に設置
 
-  #only:[:index,:show,:new,:create,:edit,:update,:destroy]
+  #only: [:index,:show,:new,:create,:edit,:update,:destroy]
 end

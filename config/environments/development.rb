@@ -38,11 +38,11 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  
+
   #メール設定
-  config.action_mailer.default_url_options = { host: 'workspace-takabo-beta.c9users.io' }
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
   config.action_mailer.smtp_settings = {
-    :domain         => 'c9users.io',
+    :domain         => 'localhost',
     :address        => 'smtp.gmail.com',
     :port           => '587',
     :user_name      => 'takabo.beta@gmail.com',
@@ -50,4 +50,14 @@ Rails.application.configure do
     :authentication => :plain,
     :enable_starttls_auto => true
   }
+  #config.action_mailer.default_url_options = { host: 'workspace-takabo-beta.c9users.io' }
+  #config.action_mailer.smtp_settings = {
+  #  :domain         => 'c9users.io',
+  #  :address        => 'smtp.gmail.com',
+  #  :port           => '587',
+  #  :user_name      => 'takabo.beta@gmail.com',
+  #  :password       => 'tk154500',
+  #  :authentication => :plain,
+  #  :enable_starttls_auto => true
+  #}
 end

@@ -24,4 +24,8 @@ class User < ActiveRecord::Base
 
   #Score追加
   has_many :scores
+
+  #Invite追加
+  has_many :sender, :class_name => "Invite", :foreign_key => 'sender_id'
+  has_many :receiver, :class_name => "Invite", :foreign_key => 'receiver_id'
 end

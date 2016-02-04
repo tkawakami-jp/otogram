@@ -9,4 +9,15 @@ class SendMailer < ApplicationMailer
       :subject => "[#{Constants::SERVICE_NAME}]お問い合わせ"
     )
   end
+
+  #友達招待
+  def invite_email(invite, path)
+    @invite = invite
+    @path = path
+    mail(
+      :to      => @invite.email,
+      :from    => "#{Constants::SERVICE_NAME} <takabo.beta@gmail.com>",
+      :subject => "[#{Constants::SERVICE_NAME}]友達招待"
+    )
+  end
 end
