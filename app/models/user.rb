@@ -11,13 +11,11 @@ class User < ActiveRecord::Base
 
   #Devise論理削除
   acts_as_paranoid
-  validates_as_paranoid
-  validates_uniqueness_of_without_deleted :email, :username
 
   #Username追加
   validates :username,
     presence: true,                     # 必須
-    #uniqueness: true,                  # ユニーク(validates_uniqueness_of_without_deletedで処理)
+    uniqueness: true,                   # ユニーク(validates_uniqueness_of_without_deletedで処理)
     length: { minimum: 3, maximum: 16 },# 3-16文字
     format: { with: /\A[a-z0-9]+\z/i }, # 半角英数字のみ
     :exclusion => %w(otogram staff admin top home user users inquiry inquiries score scores)

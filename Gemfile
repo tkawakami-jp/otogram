@@ -57,7 +57,8 @@ gem 'foundation-rails', '~> 5.5.3.2'
 gem 'font-awesome-rails', '~> 4.5.0.0'
 
 gem 'devise', '~> 3.5.2'
-gem 'acts_as_paranoid', github: 'ActsAsParanoid/acts_as_paranoid' #0.5.0.beta2 論理削除
+gem "paranoia", "~> 2.1.5"
+#gem 'acts_as_paranoid', github: 'ActsAsParanoid/acts_as_paranoid' #0.5.0.beta2 論理削除
 
 group :development do
 
