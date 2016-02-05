@@ -20,4 +20,14 @@ class SendMailer < ApplicationMailer
       :subject => "[#{Constants::SERVICE_NAME}]友達招待"
     )
   end
+
+  #順番待ちリスト
+  def wait_email(wait)
+    @wait = wait
+    mail(
+      :to      => @wait.email,
+      :from    => "#{Constants::SERVICE_NAME} <takabo.beta@gmail.com>",
+      :subject => "[#{Constants::SERVICE_NAME}]順番待ちリスト"
+    )
+  end
 end

@@ -20,7 +20,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       @wait = Wait.new(wait_params)
       if @wait.save
-        #SendMailer.wait_email(@wait).deliver_now
+        SendMailer.wait_email(@wait).deliver_now
         flash[:success] = 'メールアドレスを登録しました。'
         redirect_to new_user_registration_path
       else
