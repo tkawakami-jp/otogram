@@ -4,24 +4,32 @@
 <div class="row">
 <div class="medium-6 medium-centered columns">
 
-  <% if @invite.present? %>
-    <h1><%= Constants::SERVICE_NAME %>へようこそ！</h1>
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-      <%= devise_error_messages! %>
+<% if @invite.present? %>
+  <h1><%= Constants::SERVICE_NAME %>へようこそ！</h1>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= devise_error_messages! %>
 
-      <%= hidden_field_tag :invite_token, @invite.token %>
-      <%= f.hidden_field :invited_by_id, value: @invite.sender_id %>
+    <%= hidden_field_tag :invite_token, @invite.token %>
+    <%= f.hidden_field :invited_by_id, value: @invite.sender_id %>
 
-      <%= f.text_field :username, class: 'radius', placeholder: 'username' %>
-      <%= f.email_field :email, class: 'radius', placeholder: 'email', value: @invite.email, readonly: 'readonly' %>
-      <%= f.password_field :password, class: 'radius', placeholder: 'password' %>
-      <%= f.submit '新規登録', class: 'button radius expand' %>
-    <% end %>
-    <p class="text-center text-small">gmail.com ドメインから確認メールが届きます。</p>
+    <%= f.text_field :username, class: 'radius', placeholder: 'username' %>
+    <%= f.email_field :email, class: 'radius', placeholder: 'email', value: @invite.email, readonly: 'readonly' %>
+    <%= f.password_field :password, class: 'radius', placeholder: 'password' %>
+    <%= f.submit '新規登録', class: 'button radius expand' %>
+  <% end %>
+  <p class="text-center text-small">gmail.com ドメインから確認メールが届きます。</p>
   <% else %>
     <h1>新規登録</h1>
-    <p>すでにご利用いただいている皆様から招待通知を受け取るか、下記の入力フォームにメールアドレスをご登録してお待ちください。メールアドレスをご登録いただいた方には順次ご連絡を差し上げます。</p>
-    <p class="text-center text-small" style="margin-top:0.75rem;font-weight:bold;">（※gmail.com ドメインから確認メールが届きます。）</p>
+    <p style="margin-bottom:3rem;">すでにご利用いただいている皆様から招待通知を受け取るか、下記の入力フォームにメールアドレスをご登録してお待ちください。メールアドレスをご登録いただいた方には順次ご連絡を差し上げます。</p>
+    <%= form_for @wait, :url => user_registration_path do |f| %>
+      <% if @wait.errors.any? %>
+        <div class="error_explanation">
+          <ul><% @wait.errors.each do |attr, msg| %><li><%= msg %></li><% end %></ul>
+        </div>
+      <% end %>
+      <%= f.email_field :email, class: 'radius', placeholder: 'メールアドレス' %>
+      <%= f.submit '順番待ちリストへ登録', class: 'button radius expand' %>
+    <% end %>
   <% end %>
 
 </div>

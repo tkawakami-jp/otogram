@@ -5,13 +5,34 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # GET /resource/sign_up
   def new
     @invite = Invite.find_by(token: params[:invite_token])
-    super
+    if @invite
+      super
+    else
+      @wait = Wait.new
+    end
   end
 
   # POST /resource
   def create
     @invite = Invite.find_by(token: params[:invite_token])
-    super
+    if @invite
+      super
+    else
+      @wait = Wait.new(wait_params)
+      if @wait.save
+        #SendMailer.wait_email(@wait).deliver_now
+        flash[:success] = 'メールアドレスを登録しました。'
+        redirect_to new_user_registration_path
+      else
+        set_one_error_for_one_attribute!(@wait)
+        render 'new'
+      end
+    end
+  end
+
+  private
+  def wait_params
+    params.require(:wait).permit(:email)
   end
 
   # GET /resource/edit
