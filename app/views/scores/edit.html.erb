@@ -1,12 +1,12 @@
 <% content_for :title, 'Score' %>
 
-<% content_for :javascript do %> 
+<% content_for :javascript do %>
 <%= javascript_include_tag 'score.js' %>
 <% end %>
 
 <div id="Score">
 <div class="row">
-<div class="medium-8 medium-centered columns">
+<div class="medium-6 medium-centered columns">
 
 <div class="text-center">
   <canvas id="Canvas"></canvas>
@@ -39,7 +39,8 @@
 
 <%= form_for(@score) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-  <%= f.text_field :name, class: 'radius', placeholder: 'score-name' %>
+  <label>曲名</label>
+  <%= f.text_field :name, class: 'radius' %>
   <%= f.hidden_field :data, id: 'data' %>
   <%= f.submit '保存', class: 'button radius expand' %>
 <% end %>

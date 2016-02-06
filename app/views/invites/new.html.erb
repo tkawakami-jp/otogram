@@ -5,12 +5,9 @@
 <div class="medium-6 medium-centered columns">
 
 <%= form_for (@invite) do |f| %>
-  <% if @invite.errors.any? %>
-    <div class="error_explanation">
-      <ul><% @invite.errors.each do |attr, msg| %><li><%= msg %></li><% end %></ul>
-    </div>
-  <% end %>
-  <%= f.email_field :email, class: 'radius', placeholder: 'メールアドレス' %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <label>メールアドレス</label>
+  <%= f.email_field :email, class: 'radius' %>
   <%= f.submit '送信', class: 'button radius expand' %>
 <% end %>
 

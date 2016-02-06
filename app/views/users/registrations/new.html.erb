@@ -22,13 +22,9 @@
     <h1>新規登録</h1>
     <p style="margin-bottom:3rem;">すでにご利用いただいている皆様から招待通知を受け取るか、下記の入力フォームにメールアドレスをご登録してお待ちください。メールアドレスをご登録いただいた方には順次ご連絡を差し上げます。</p>
     <%= form_for @wait, :url => user_registration_path do |f| %>
-      <% if @wait.errors.any? %>
-        <div class="error_explanation">
-          <ul><% @wait.errors.each do |attr, msg| %><li><%= msg %></li><% end %></ul>
-        </div>
-      <% end %>
+      <%= render 'shared/error_messages', object: f.object %>
       <%= f.email_field :email, class: 'radius', placeholder: 'メールアドレス' %>
-      <%= f.submit '順番待ちリストへ登録', class: 'button radius expand' %>
+      <%= f.submit 'メールアドレスを登録', class: 'button radius expand' %>
     <% end %>
   <% end %>
 

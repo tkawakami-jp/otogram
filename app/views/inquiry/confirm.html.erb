@@ -3,7 +3,7 @@
 <div id="Setting">
 <div class="row">
 <div class="medium-6 medium-centered columns">
-  
+
   <h4>この内容でよろしいですか？</h4>
   <%= form_for @inquiry, :url => inquiry_complete_path do |f| %>
     <%= f.text_field :name, class: 'radius', value:@inquiry.name %>
