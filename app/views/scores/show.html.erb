@@ -23,7 +23,7 @@
   </div>
 
   <div class="text-center" style="margin-top:1rem;">
-    <%= link_to "https://twitter.com/intent/tweet?url=#{score_url(@score)}",target:"_blank" do %><i class="fa fa-twitter-square fa-lg" style="color:#fff;"><span class="text-small">ツイート</span></i><% end %>
+    <%= link_to "https://twitter.com/intent/tweet?text=#{@score.name}｜&url=#{score_url(@score)}",target:"_blank" do %><i class="fa fa-twitter-square fa-lg" style="color:#fff;"><span class="text-small">ツイート</span></i><% end %>
     <%= link_to "http://www.facebook.com/sharer.php?u=#{score_url(@score)}",target:"_blank" do %><i class="fa fa-facebook-square fa-lg" style="color:#fff;"><span class="text-small">シェア</span></i><% end %>
   </div>
 </div>
