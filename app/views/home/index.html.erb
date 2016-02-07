@@ -5,14 +5,18 @@
   <div class="medium-6 medium-centered columns">
     <h1>Home</h1>
     <% if @scores.any? %>
+      <ul>
       <% @scores.each do |score| %>
-        <%= link_to score.name, score_path(score) %>
-        <% if current_user == score.user %>
-          <span class="text-small"><%= link_to '編集', edit_score_path(score) %></span>
-          <span class="text-small"><%= link_to '削除', score, method: :delete, data: { confirm: '本当に削除しますか？' } %></span>
-        <% end %>
-        <br>
+        <li>
+          <h2><%= link_to score.name, score_path(score) %></h2>
+          <%= link_to score.user.username, user_path(score.user.username) %>
+          <% if current_user == score.user %>
+            <span class="text-small"><%= link_to '編集', edit_score_path(score) %></span>
+            <span class="text-small"><%= link_to '削除', score, method: :delete, data: { confirm: '本当に削除しますか？' } %></span>
+          <% end %>
+        </li>
       <% end %>
+      </ul>
     <% end %>
   </div>
   </div>
