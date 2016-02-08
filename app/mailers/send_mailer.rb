@@ -25,7 +25,7 @@ class SendMailer < ApplicationMailer
   def wait_email(wait)
     @wait = wait
     mail(
-      :to      => @wait.email,
+      :to      => 'takabo.beta@gmail.com',
       :from    => "#{Constants::SERVICE_NAME} <takabo.beta@gmail.com>",
       :subject => "[#{Constants::SERVICE_NAME}]順番待ちリスト"
     )
