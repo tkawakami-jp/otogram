@@ -20,7 +20,7 @@
   <p class="text-center text-small">gmail.com ドメインから確認メールが届きます。</p>
   <% else %>
     <h1>新規登録</h1>
-    <p style="margin-bottom:3rem;">すでにご利用いただいている皆様から招待通知を受け取るか、下記の入力フォームにメールアドレスをご登録してお待ちください。メールアドレスをご登録いただいた方には順次ご連絡を差し上げます。</p>
+    <p style="margin-bottom:1rem;">すでにご利用いただいている皆様から招待通知を受け取るか、下記の入力フォームにメールアドレスをご登録してお待ちください。メールアドレスをご登録いただいた方には順次ご連絡を差し上げます。</p>
     <%= form_for @wait, :url => user_registration_path do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
       <%= f.email_field :email, class: 'radius', placeholder: 'メールアドレス' %>
