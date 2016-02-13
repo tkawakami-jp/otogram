@@ -13,9 +13,8 @@ Rails.application.routes.draw do
   post 'inquiry/confirm'  => 'inquiry#confirm'
   post 'inquiry/complete' => 'inquiry#complete'
 
-  resources :scores
-
   resources :invites, only: [:new,:create]
+  #resources :scores
 
   get  'mario' => 'mario#index'
   get  'mario2' => 'mario#index2'
