@@ -1,6 +1,8 @@
 ja:
-#  activerecord:
-#    attributes:
+  activerecord:
+    attributes:
+      score:
+        name: 曲名
 #      user:
 #        username: アカウント名
 #        email: メールアドレス

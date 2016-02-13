@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'scores/show'
+
   root 'home#index'
 
   devise_for :users, controllers: {
@@ -14,7 +16,8 @@ Rails.application.routes.draw do
   post 'inquiry/complete' => 'inquiry#complete'
 
   resources :invites, only: [:new,:create]
-  #resources :scores
+
+  resources :scores
 
   get  'mario' => 'mario#index'
   get  'mario2' => 'mario#index2'

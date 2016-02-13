@@ -20,10 +20,10 @@ class User < ActiveRecord::Base
     format: { with: /\A[a-z0-9]+\z/i }, # 半角英数字のみ
     :exclusion => %w(otogram staff admin top home user users inquiry inquiries score scores)
 
-  #Score追加
-  has_many :scores
-
   #Invite追加
   has_many :sender, :class_name => "Invite", :foreign_key => 'sender_id'
   has_many :receiver, :class_name => "Invite", :foreign_key => 'receiver_id'
+
+  #Score追加
+  has_many :scores, :class_name => "Score", :foreign_key => 'owner_id'
 end

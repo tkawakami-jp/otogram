@@ -1,0 +1,16 @@
+<% content_for :title, @score.name %>
+
+<div id="Score">
+<div class="row">
+<div class="medium-6 medium-centered columns">
+
+  <p><%= @score.name %></p>
+  <p><%= @score.owner.username %></p>
+  <% if current_user == @score.owner %>
+    <span class="text-small"><%= link_to '編集', edit_score_path(@score) %></span>
+    <span class="text-small"><%= link_to '削除', @score, method: :delete, data: { confirm: '本当に削除しますか？' } %></span>
+  <% end %>
+
+</div>
+</div>
+</div>

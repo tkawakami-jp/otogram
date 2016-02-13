@@ -31,7 +31,7 @@
         <li><%#= link_to current_user.username, user_path(current_user.username) %></li>
         <li><label><%= current_user.username %></label></li>
         <li><%= link_to 'ホーム', root_path %></li>
-        <li><%#= link_to '新規作曲', new_score_path %></li>
+        <li><%= link_to '新規作曲', new_score_path %></li>
         <li><%= link_to 'プロフィール表示', user_path(current_user.username) %></li>
         <li><%= link_to 'アカウント設定', edit_user_registration_path %></li>
         <li><%= link_to '友達を招待', new_invite_path %></li>

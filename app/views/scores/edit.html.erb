@@ -1,0 +1,16 @@
+<% content_for :title, 'Score' %>
+
+<div id="Score">
+<div class="row">
+<div class="medium-6 medium-centered columns">
+
+  <%= form_for(@score) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'radius' %>
+    <%= f.submit '更新', class: 'button radius expand' %>
+  <% end %>
+
+</div>
+</div>
+</div>
