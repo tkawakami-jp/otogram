@@ -20,15 +20,13 @@ class ScoresController < ApplicationController
   end
 
   def edit
-    #@score = Score.includes(:notes).find(params[:id])
-    @score = current_user.scores.find(params[:id])
-    #@score.notes.build
+    @score = Score.find(params[:id])
     #return render :text => CGI.escapeHTML(@score.notes.inspect).gsub(/,/,'<br>')
     @note = Note.new
   end
 
   def update
-    @score = current_user.scores.find(params[:id])
+    @score = Score.find(params[:id])
     if @score.update(score_params)
       flash[:success] = "Score edited!"
       redirect_to edit_score_path(params[:id])

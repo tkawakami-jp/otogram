@@ -4,12 +4,24 @@
 <div class="row">
 <div class="medium-6 medium-centered columns">
 
-  <p><%= @score.name %></p>
-  <p><%= @score.owner.username %></p>
-  <% if current_user == @score.owner %>
-    <span class="text-small"><%= link_to '編集', edit_score_path(@score) %></span>
-    <span class="text-small"><%= link_to '削除', @score, method: :delete, data: { confirm: '本当に削除しますか？' } %></span>
-  <% end %>
+  <h2><%= link_to @score.name, score_path(@score) %></h2>
+  <p>
+    <% if user_signed_in? %>
+      <span class="text-small"><%= link_to '共同編集', edit_score_path(@score) %></span>
+    <% end %>
+    <% if current_user == @score.owner %>
+      <span class="text-small"><%= link_to '削除', @score, method: :delete, data: { confirm: '本当に削除しますか？' } %></span>
+    <% end %>
+  </p>
+  <p><span class="text-small">created by </span><strong><%= link_to @score.owner.username, user_path(@score.owner.username) %></strong></p>
+  <p>
+    <% @score.notes.each do |collaborators| %>
+      <% if collaborators.user.present? && @score.owner != collaborators.user %>
+        <span class="text-small">collaborators</span>
+        <strong><%= link_to collaborators.user.username, user_path(collaborators.user.username) %></strong>
+      <% end %>
+    <% end %>
+  </p>
 
 </div>
 </div>

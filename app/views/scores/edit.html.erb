@@ -6,16 +6,29 @@
 
   <%= form_for(@score) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
+    <!--曲名-->
     <%= f.label :name %>
-    <%= f.text_field :name, class: 'radius' %>
-
+    <% if current_user == @score.owner %>
+      <%= f.text_field :name, class: 'radius' %>
+    <% else %>
+      <%= f.text_field :name, class: 'radius', readonly: 'readonly' %>
+    <% end %>
+    <!--トラック-->
     <%= f.fields_for :notes do |notes_fields| %>
       <%= notes_fields.hidden_field :id %>
       <span class="text-small">created by </span><strong><%= notes_fields.object.user.username %></strong>
-      <label class="text-small"><%= notes_fields.check_box :_destroy, style:'vertical-align:0;margin-bottom:0;' %>削除</label>
-      <%= notes_fields.text_field :data %>
+      <!--削除-->
+      <% if current_user == notes_fields.object.user %>
+        <label class="text-small"><%= notes_fields.check_box :_destroy, style:'vertical-align:0;margin-bottom:0;' %>削除</label>
+      <% end %>
+      <!--Data-->
+      <% if current_user == notes_fields.object.user %>
+        <%= notes_fields.text_field :data, class: 'radius' %>
+      <% else %>
+        <%= notes_fields.text_field :data, class: 'radius', readonly: 'readonly' %>
+      <% end %>
     <% end %>
-
+    <!--送信-->
     <%= f.submit '更新', class: 'button radius expand' %>
   <% end %>
 
