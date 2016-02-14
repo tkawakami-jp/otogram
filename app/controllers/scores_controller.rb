@@ -13,21 +13,25 @@ class ScoresController < ApplicationController
     @score = current_user.scores.build(score_params)
     if @score.save
       flash[:success] = "Score created!"
-      redirect_to root_path
+      redirect_to edit_score_path(@score.id)
     else
       render new_score_path
     end
   end
 
   def edit
+    #@score = Score.includes(:notes).find(params[:id])
     @score = current_user.scores.find(params[:id])
+    #@score.notes.build
+    #return render :text => CGI.escapeHTML(@score.notes.inspect).gsub(/,/,'<br>')
+    @note = Note.new
   end
 
   def update
     @score = current_user.scores.find(params[:id])
     if @score.update(score_params)
       flash[:success] = "Score edited!"
-      redirect_to root_path
+      redirect_to edit_score_path(params[:id])
     else
       render 'edit'
     end
@@ -42,6 +46,6 @@ class ScoresController < ApplicationController
 
   private
   def score_params
-    params.require(:score).permit(:name)
+    params.require(:score).permit(:name, notes_attributes: [:id, :_destroy, :data])
   end
 end

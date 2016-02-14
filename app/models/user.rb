@@ -26,4 +26,6 @@ class User < ActiveRecord::Base
 
   #Score追加
   has_many :scores, :class_name => "Score", :foreign_key => 'owner_id'
+  #Note追加
+  has_many :notes
 end

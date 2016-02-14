@@ -8,8 +8,26 @@
     <%= render 'shared/error_messages', object: f.object %>
     <%= f.label :name %>
     <%= f.text_field :name, class: 'radius' %>
+
+    <%= f.fields_for :notes do |notes_fields| %>
+      <%= notes_fields.hidden_field :id %>
+      <span class="text-small">created by </span><strong><%= notes_fields.object.user.username %></strong>
+      <label class="text-small"><%= notes_fields.check_box :_destroy, style:'vertical-align:0;margin-bottom:0;' %>削除</label>
+      <%= notes_fields.text_field :data %>
+    <% end %>
+
     <%= f.submit '更新', class: 'button radius expand' %>
   <% end %>
+
+  <!--
+  <%= form_for(@note) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <%= f.hidden_field :score_id, value: @score.id %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.submit 'トラック追加', class: 'button radius expand' %>
+  <% end %>
+  -->
+  <%= link_to 'トラック追加', notes_path(note: {score_id: @score.id, user_id: current_user.id}), method: :post %>
 
 </div>
 </div>

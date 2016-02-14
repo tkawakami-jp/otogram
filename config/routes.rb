@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :invites, only: [:new,:create]
 
   resources :scores
+  resources :notes, only: [:create]
 
   get  'mario' => 'mario#index'
   get  'mario2' => 'mario#index2'
