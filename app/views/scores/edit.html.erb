@@ -1,46 +1,57 @@
 <% content_for :title, 'Score' %>
+<% content_for :css do %><%= stylesheet_link_tag 'score' %><% end %>
+<% content_for :js do %><%= javascript_include_tag 'editScore' %><% end %>
 
 <div id="Score">
 <div class="row">
 <div class="medium-6 medium-centered columns">
 
-  <%= form_for(@score) do |f| %>
-    <%= render 'shared/error_messages', object: f.object %>
-    <!--曲名-->
-    <%= f.label :name %>
-    <% if current_user == @score.owner %>
-      <%= f.text_field :name, class: 'radius' %>
-    <% else %>
-      <%= f.text_field :name, class: 'radius', readonly: 'readonly' %>
-    <% end %>
-    <!--トラック-->
-    <%= f.fields_for :notes do |notes_fields| %>
-      <%= notes_fields.hidden_field :id %>
-      <span class="text-small">created by </span><strong><%= notes_fields.object.user.username %></strong>
-      <!--削除-->
-      <% if current_user == notes_fields.object.user %>
-        <label class="text-small"><%= notes_fields.check_box :_destroy, style:'vertical-align:0;margin-bottom:0;' %>削除</label>
-      <% end %>
-      <!--Data-->
-      <% if current_user == notes_fields.object.user %>
-        <%= notes_fields.text_field :data, class: 'radius' %>
-      <% else %>
-        <%= notes_fields.text_field :data, class: 'radius', readonly: 'readonly' %>
-      <% end %>
-    <% end %>
-    <!--送信-->
-    <%= f.submit '更新', class: 'button radius expand' %>
-  <% end %>
+<div class="text-center">
+  <canvas id="Canvas"></canvas>
+  <button type="button" id="Play" class="button radius tiny">Play</button>
+  <button type="button" id="Stop" class="button radius tiny">Stop</button>
+  <button type="button" id="Clear" class="button radius tiny">Clear</button>
+  <button type="button" id="Data" class="button radius tiny">Data</button>
+  <input type="range" id="Scroll">
+</div>
 
-  <!--
-  <%= form_for(@note) do |f| %>
-    <%= render 'shared/error_messages', object: f.object %>
-    <%= f.hidden_field :score_id, value: @score.id %>
-    <%= f.hidden_field :user_id, value: current_user.id %>
-    <%= f.submit 'トラック追加', class: 'button radius expand' %>
+<%= form_for(@score) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <!--トラック-->
+  <%= f.fields_for :notes do |notes_fields| %>
+    <%= notes_fields.hidden_field :id %>
+    <strong>Track<%= notes_fields.options[:child_index]+1 %></strong>
+    <!--編集-->
+    <% if current_user == notes_fields.object.user %>
+      <label class="text-small"><input type="radio" name="track" value="<%= (notes_fields.options[:child_index]+1).to_s %>" <% if notes_fields.options[:child_index]+1 == 1 %>checked="checked"<% end %> style="vertical-align:0;margin-bottom:0;">編集</label>
+    <% else %>
+      <label class="text-small"><input type="radio" name="track" value="<%= (notes_fields.options[:child_index]+1).to_s %>" <% if notes_fields.options[:child_index]+1 == 1 %>checked="checked"<% end %> disabled='disabled' style="vertical-align:0;margin-bottom:0;">編集</label>
+    <% end %>
+    <!--表示-->
+    <label class="text-small"><input type="checkbox" name="show" value="<%= (notes_fields.options[:child_index]+1).to_s %>" checked="checked" style="vertical-align:0;margin-bottom:0;">表示</label>
+    <!--削除-->
+    <% if current_user == notes_fields.object.user %>
+      <label class="text-small"><%= notes_fields.check_box :_destroy, style:'vertical-align:0;margin-bottom:0;' %>削除</label>
+    <% else %>
+      <label class="text-small"><%= notes_fields.check_box :_destroy, disabled:'disabled', style:'vertical-align:0;margin-bottom:0;' %>削除</label>
+    <% end %>
+    <!--作成者-->
+    <span class="text-small">created by </span><strong><%= notes_fields.object.user.username %></strong>
+    <!--Data-->
+    <%= notes_fields.hidden_field :data, id: 'data'+(notes_fields.options[:child_index]+1).to_s %>
   <% end %>
-  -->
-  <%= link_to 'トラック追加', notes_path(note: {score_id: @score.id, user_id: current_user.id}), method: :post %>
+  <!--トラック追加-->
+  <div class="text-center" style="margin-top:0.5rem"><%= link_to 'トラック追加', notes_path(note: {score_id: @score.id, user_id: current_user.id}), method: :post %></div>
+  <!--曲名-->
+  <%= f.label :name %>
+  <% if current_user == @score.owner %>
+    <%= f.text_field :name, class: 'radius' %>
+  <% else %>
+    <%= f.text_field :name, class: 'radius', readonly: 'readonly' %>
+  <% end %>
+  <!--送信-->
+  <%= f.submit '更新', class: 'button radius expand' %>
+<% end %>
 
 </div>
 </div>

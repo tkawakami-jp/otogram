@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
   <title><%= content_for?(:title) ? yield(:title)+' | '+ Constants::SERVICE_NAME : Constants::SERVICE_NAME %></title>
   <%= stylesheet_link_tag 'application', media: 'all' %>
-  <%= yield :style %>
+  <%= yield :css %>
 </head>
 <body>
 <div class="off-canvas-wrap" data-offcanvas>
@@ -64,8 +64,7 @@
 
 <%= javascript_include_tag "vendor/modernizr" %>
 <%= javascript_include_tag 'application' %>
-<%= yield :javascript %>
-<%= yield :script %>
+<%= yield :js %>
 
 <% if Rails.env == 'production' %>
 <script>

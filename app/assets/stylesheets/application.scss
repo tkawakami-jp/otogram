@@ -98,6 +98,9 @@ div,p {
 .text-small {
   font-size: 0.75rem;
 }
+.text-bold {
+  font-weight: bold;
+}
 ::-webkit-input-placeholder {
   color: #ccc;
 }
@@ -273,7 +276,6 @@ Home
 #Home,
 #Reset,
 #Setting,
-#Score,
 #User,
 #Invite {
   padding: 20px 0;
