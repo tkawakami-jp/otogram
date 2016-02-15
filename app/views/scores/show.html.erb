@@ -1,10 +1,32 @@
 <% content_for :title, @score.name %>
+<% content_for :css do %><%= stylesheet_link_tag 'score' %><% end %>
+<% content_for :js do %><%= javascript_include_tag 'showScore' %><% end %>
+
 
 <div id="Score">
 <div class="row">
 <div class="medium-6 medium-centered columns">
 
-  <h2><%= link_to @score.name, score_path(@score) %></h2>
+  <h2 style="margin-bottom:0.75rem"><%= @score.name %></h2>
+
+  <div class="text-center" style="margin-bottom:1rem;">
+    <canvas id="Canvas"></canvas>
+
+    <p>
+    <button type="button" id="Play" class="button radius tiny">Play</button>
+    <button type="button" id="Stop" class="button radius tiny">Stop</button>
+    </p>
+
+    <p>
+    <%= link_to "https://twitter.com/intent/tweet?text=#{@score.name}｜&url=#{score_url(@score)}",target:"_blank" do %><i class="fa fa-twitter-square fa-lg" style="color:#fff;"><span class="text-small">ツイート</span></i><% end %>
+    <%= link_to "http://www.facebook.com/sharer.php?u=#{score_url(@score)}",target:"_blank" do %><i class="fa fa-facebook-square fa-lg" style="color:#fff;"><span class="text-small">シェア</span></i><% end %>
+    </p>
+
+    <% @score.notes.each_with_index do |note, i| %>
+      <input type="hidden" id="data<%= i+1 %>" value="<%= note.data %>">
+    <% end %>
+  </div>
+
   <p>
     <% if user_signed_in? %>
       <span class="text-small"><%= link_to '共同編集', edit_score_path(@score) %></span>

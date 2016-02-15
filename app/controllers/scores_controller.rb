@@ -7,6 +7,7 @@ class ScoresController < ApplicationController
 
   def new
     @score = current_user.scores.build
+    @score.notes.build
   end
 
   def create
@@ -22,7 +23,6 @@ class ScoresController < ApplicationController
   def edit
     @score = Score.find(params[:id])
     #return render :text => CGI.escapeHTML(@score.notes.inspect).gsub(/,/,'<br>')
-    @note = Note.new
   end
 
   def update
@@ -44,6 +44,6 @@ class ScoresController < ApplicationController
 
   private
   def score_params
-    params.require(:score).permit(:name, notes_attributes: [:id, :_destroy, :data])
+    params.require(:score).permit(:name, notes_attributes: [:id, :score_id, :user_id, :data, :_destroy])
   end
 end

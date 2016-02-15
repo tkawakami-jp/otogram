@@ -8,6 +8,12 @@
     <%= render 'shared/error_messages', object: f.object %>
     <%= f.label :name %>
     <%= f.text_field :name, class: 'radius' %>
+
+    <%= f.fields_for :notes do |notes_fields| %>
+      <%= notes_fields.hidden_field :score_id, value: @score.id %>
+      <%= notes_fields.hidden_field :user_id, value: current_user.id %>
+    <% end %>
+
     <%= f.submit '新規作曲', class: 'button radius expand' %>
   <% end %>
 
