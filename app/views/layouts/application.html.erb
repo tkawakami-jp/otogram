@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <%= csrf_meta_tags %>
-  <title><%= content_for?(:title) ? yield(:title)+' | '+ Constants::SERVICE_NAME : Constants::SERVICE_NAME %></title>
+  <title><%= content_for?(:title) ? yield(:title) + Constants::SERVICE_NAME : Constants::SERVICE_NAME+'ONLINEシンプル作曲サービス' %></title>
   <%= stylesheet_link_tag 'application', media: 'all' %>
   <%= yield :css %>
 </head>
@@ -19,7 +19,7 @@
   <!--navi-->
   <nav class="tab-bar">
     <section class="middle tab-bar-section">
-      <h1><%= link_to root_path do %><%= Constants::SERVICE_NAME[0,5] %> <span><%= Constants::SERVICE_NAME[5,3] %></span><% end %></h1>
+      <h1><%= link_to root_path do %><%= Constants::SERVICE_NAME %><% end %></h1>
     </section>
     <section class="right-small">
       <a class="right-off-canvas-toggle menu-icon" href="#"><span></span></a>

@@ -1,18 +1,13 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
 User.create!([
   {email: "takabo.beta@gmail.com", password: "tk154500", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1, current_sign_in_at: "2016-01-01 00:00:00", last_sign_in_at: "2016-01-01 00:00:00", current_sign_in_ip: "124.110.12.224", last_sign_in_ip: "124.110.12.224", confirmation_token: "ypz8EA9mQKs-h5fg_rF1", confirmed_at: "2016-01-01 00:00:00", confirmation_sent_at: "2016-01-01 00:00:00", unconfirmed_email: nil, deleted_at: nil, username: "takabo"},
   {email: "tkawakami@tkltd.jp", password: "tk154500", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1, current_sign_in_at: "2016-01-01 00:00:00", last_sign_in_at: "2016-01-01 00:00:00", current_sign_in_ip: "124.110.12.224", last_sign_in_ip: "124.110.12.224", confirmation_token: "ypz8EA9mQKs-h5fg_rF2", confirmed_at: "2016-01-01 00:00:00", confirmation_sent_at: "2016-01-01 00:00:00", unconfirmed_email: nil, deleted_at: nil, username: "takahiro"},
-  {email: "o9o60155417@docomo.ne.jp", password: "tk154500", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1, current_sign_in_at: "2016-01-01 00:00:00", last_sign_in_at: "2016-01-01 00:00:00", current_sign_in_ip: "124.110.12.224", last_sign_in_ip: "124.110.12.224", confirmation_token: "ypz8EA9mQKs-h5fg_rF3", confirmed_at: "2016-01-01 00:00:00", confirmation_sent_at: "2016-01-01 00:00:00", unconfirmed_email: nil, deleted_at: nil, username: "takachan"}
+  {email: "o9o60155417@docomo.ne.jp", password: "tk154500", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: nil, sign_in_count: 1, current_sign_in_at: "2016-01-01 00:00:00", last_sign_in_at: "2016-01-01 00:00:00", current_sign_in_ip: "124.110.12.224", last_sign_in_ip: "124.110.12.224", confirmation_token: "ypz8EA9mQKs-h5fg_rF3", confirmed_at: "2016-01-01 00:00:00", confirmation_sent_at: "2016-01-01 00:00:00", unconfirmed_email: nil, deleted_at: nil, username: "takachan"},
+  {email: "kohpaw@gmail.com", password: "aaaaaaaa", reset_password_token: nil, reset_password_sent_at: nil, remember_created_at: "2016-02-10 01:37:37", sign_in_count: 2, current_sign_in_at: "2016-02-10 01:39:17", last_sign_in_at: "2016-02-10 01:37:37", current_sign_in_ip: "126.249.112.244", last_sign_in_ip: "126.249.112.244", confirmation_token: "ysro-RM-PLaq2cHHDwmx", confirmed_at: "2016-02-10 01:37:26", confirmation_sent_at: "2016-02-10 01:36:04", unconfirmed_email: nil, deleted_at: nil, username: "kohei", invited_by_id: 1}
+  #$2a$10$SWvQC7Qz600n34zbYN/SGetHQUgQHsItir8X2sXZ7s3QzE0mG8jDy
 ])
 Invite.create!([
-  {sender_id: 1, receiver_id: nil, email: "takabo.beta@gmail.com", token: "aaa"}
+  {sender_id: 1, receiver_id: nil, email: "takabo.beta@gmail.com", token: "aaa"},
+  {sender_id: 1, receiver_id: nil, email: "kohpaw@gmail.com", token: "5d173457f2de49f976893a23bdf90782"}
 ])
 Note.create!([
   {score_id: 1, user_id: 1, data: "{\"note\":[[11],[],[11],[],[7],[],[7],[],[6],[],[6],[],[7],[],[],[],[8],[],[8],[],[9],[],[9],[],[10],[],[10],[],[11],[],[],[],[7],[],[7],[],[8],[],[8],[],[9],[],[9],[],[10],[],[],[],[7],[],[7],[],[8],[],[8],[],[9],[],[9],[],[10],[],[],[],[11],[],[11],[],[7],[],[7],[],[6],[],[6],[],[7],[],[],[],[8],[],[8],[],[9],[],[9],[],[10],[],[10],[],[11],[],[],[]],\"bpm\":\"178\"}"},
