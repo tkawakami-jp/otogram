@@ -34,7 +34,7 @@ var GameStatus = 0; // 0:Edit, 1:Playing
 var isPaused = true;
 
 var UI = {};
-
+var Color = ['Red','Orange','Yellow','Green','Cyan','Blue','Magenta']
 /*------------------------------------------------------------------------------
 Canvas
 ------------------------------------------------------------------------------*/
@@ -188,7 +188,8 @@ function drawScore(timestamp) {
         //var scale  = b[j];//音階
         var y = scale * GridHalf + GridHalf + bound;
 
-        Layer.fillStyle = 'rgba(255,0,0,0.5)';
+        Layer.fillStyle = Color[Track.index[j%7]];
+        Layer.globalAlpha = 0.5
         Layer.beginPath();
         Layer.arc(x,y,GridHalf,0,Math.PI*2);
         Layer.fill();
@@ -515,6 +516,7 @@ window.addEventListener('load', function(){
   //});
 
   //Track
+  Track.index = $(".index").map(function(){ return $(this).val() }).get();
   //Track.track = $("[name=track]:checked").val();
   //Track.show = $("[name=show]:checked").map(function(){ return $(this).val() }).get();
   //$("[name=track]").on('change', function(){

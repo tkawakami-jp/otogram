@@ -34,6 +34,7 @@
   </div>
 </div>
 
+<% checked_arr = [] %>
 <%= form_for(@score) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <!--トラック-->
@@ -41,20 +42,30 @@
   <%= f.fields_for :notes do |notes_fields| %>
   <li style="margin-bottom:0.75rem;">
     <%= notes_fields.hidden_field :id %>
-    <strong>Track<%= notes_fields.options[:child_index]+1 %></strong>
-    <!--編集-->
-    <% if current_user == notes_fields.object.user %>
-      <label class="text-small"><input type="radio" name="track" value="<%= (notes_fields.options[:child_index]+1).to_s %>" <% if notes_fields.options[:child_index]+1 == 1 %>checked="checked"<% end %> style="vertical-align:0;margin-bottom:0;">編集</label>
-    <% else %>
-      <label class="text-small"><input type="radio" name="track" value="<%= (notes_fields.options[:child_index]+1).to_s %>" <% if notes_fields.options[:child_index]+1 == 1 %>checked="checked"<% end %> disabled='disabled' style="vertical-align:0;margin-bottom:0;">編集</label>
+    <% note_num = notes_fields.options[:child_index]+1 %>
+    <% note_user = notes_fields.object.user %>
+
+    <!-- 編集ラジオボタン判定 -->
+    <% if !checked_arr.index(note_user.id) && current_user == note_user%>
+      <% checked = "checked=checked" %>
+      <% checked_arr << note_user.id %>
     <% end %>
+
+    <!--トラック-->
+    <strong>Track<%= note_num %></strong>
     <!--表示-->
-    <label class="text-small"><input type="checkbox" name="show" value="<%= (notes_fields.options[:child_index]+1).to_s %>" checked="checked" style="vertical-align:0;margin-bottom:0;">表示</label>
+    <label class="text-small"><input type="checkbox" name="show" value="<%= note_num %>" checked="checked" style="vertical-align:0;margin-bottom:0;">表示</label>
+    <!--編集-->
+    <% if current_user == note_user %>
+      <label class="text-small"><input type="radio" <%= checked %> name="track" value="<%= note_num %>" style="vertical-align:0;margin-bottom:0;">編集</label>
+    <% else %>
+      <label class="text-small"><input type="radio" <%= checked %> name="track" value="<%= note_num %>" style="vertical-align:0;margin-bottom:0;" disabled='disabled'>編集</label>
+    <% end %>
     <!--削除-->
-    <% if current_user == notes_fields.object.user && notes_fields.options[:child_index]+1 != 1 %>
+    <% if current_user == note_user && note_num != 1 %>
       <label class="text-small"><%= notes_fields.check_box :_destroy, style:'vertical-align:0;margin-bottom:0;' %>削除</label>
     <% else %>
-      <label class="text-small"><%= notes_fields.check_box :_destroy, disabled:'disabled', style:'vertical-align:0;margin-bottom:0;' %>削除</label>
+      <label class="text-small"><%= notes_fields.check_box :_destroy, style:'vertical-align:0;margin-bottom:0;', disabled:'disabled' %>削除</label>
     <% end %>
     <!--作成者-->
     <span class="text-small">created by </span><strong><%= notes_fields.object.user.username %></strong>

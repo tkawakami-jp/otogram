@@ -23,6 +23,7 @@
     </p>
 
     <% @score.notes.each_with_index do |note, i| %>
+      <input type="hidden" class="index" value="<%= i %>">
       <input type="hidden" id="data<%= i+1 %>" value="<%= note.data %>">
     <% end %>
   </div>
