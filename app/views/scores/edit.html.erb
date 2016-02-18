@@ -75,8 +75,6 @@
   <% end %>
   </ul>
 
-  <!--トラック追加-->
-  <div class="text-center" style="margin-top:0.5rem"><%= link_to 'トラック追加', notes_path(note: {score_id: @score.id, user_id: current_user.id}), method: :post %></div>
   <!--曲名-->
   <%= f.label :name %>
   <% if current_user == @score.owner %>
@@ -85,7 +83,10 @@
     <%= f.text_field :name, class: 'radius', readonly: 'readonly' %>
   <% end %>
   <!--送信-->
-  <%= f.submit '保存', class: 'button radius expand' %>
+  <%= f.submit '更新', class: 'button radius expand' %>
+  <!--トラック追加-->
+  <div class="text-center" style="margin-top:0.5rem"><%= link_to 'トラック追加', notes_path(note: {score_id: @score.id, user_id: current_user.id}), method: :post %></div>
+
 <% end %>
 
 </div>

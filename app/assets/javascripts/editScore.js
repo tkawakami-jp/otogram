@@ -410,9 +410,13 @@ window.addEventListener('load', function(){
         Score.bpm = data.bpm;
         Score.beat = data.note.length;
       }
-    }else{
+    }else if(text == '' && i == 1){
       Score.bpm = $('#Bpm').val();
       Score.beat = 4 * $('#Measure').val();//4拍子 * 8小節 = 32拍子
+      var arr = [];
+      for (var j=0;j<Score.beat;j++) arr[j] = [];
+      Score.notes[i-1] = {note: arr};
+    }else{
       var arr = [];
       for (var j=0;j<Score.beat;j++) arr[j] = [];
       Score.notes[i-1] = {note: arr};
@@ -422,6 +426,7 @@ window.addEventListener('load', function(){
   //console.log(Score)
 
   //BPM
+  console.log(Score.bpm)
   $('#Bpm').val(Score.bpm);
   $('#Bpm').on('change', function(){
     var min = Number($('#Bpm').attr('min'));
