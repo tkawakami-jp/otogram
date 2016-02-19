@@ -21,7 +21,7 @@ var MouseY =0;
 var GridX = 0;
 var GridY = 0;
 
-var CanvasW = 640;
+var CanvasW = 320 * window.devicePixelRatio;
 var GridCount = 8;
 var Grid = CanvasW / GridCount;
 var GridHalf = Grid / 2;
@@ -343,7 +343,7 @@ MarchClass.prototype.play = function(timestamp) {
 
   //BPM=1分間の拍数
   //1拍のミリ秒数＝60÷BPM×定数A×1000（定数A：[全音符＝4,二分音符＝2,四分音符＝1,八分音符＝0.5,十六分音符＝0.25]）
-  var ms = 60 / Score.bpm * 1000 * 1;
+  var ms = 60 / Score.bpm * 1000 * 0.5;
   //速さ = 距離(Grid) / 時間(ms)
   var speed = Grid / ms;
   var step = speed * diff;
