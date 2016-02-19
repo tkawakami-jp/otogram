@@ -22,7 +22,7 @@
     <%= link_to "http://www.facebook.com/sharer.php?u=#{score_url(@score)}",target:"_blank" do %><i class="fa fa-facebook-square fa-lg" style="color:#fff;"><span class="text-small">シェア</span></i><% end %>
     </p>
 
-    <% @score.notes.each_with_index do |note, i| %>
+    <% @score.notes.order('id').each_with_index do |note, i| %>
       <input type="hidden" class="index" value="<%= i %>">
       <input type="hidden" id="data<%= i+1 %>" value="<%= note.data %>">
     <% end %>
