@@ -39,7 +39,7 @@
   <%= render 'shared/error_messages', object: f.object %>
   <!--トラック-->
   <ul>
-  <%= f.fields_for :notes do |notes_fields| %>
+  <%= f.fields_for :notes, @score.notes.sort_by(&:id) do |notes_fields| %>
   <li style="margin-bottom:0.75rem;">
     <%= notes_fields.hidden_field :id %>
     <% note_num = notes_fields.options[:child_index]+1 %>

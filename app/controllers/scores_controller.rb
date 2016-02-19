@@ -22,6 +22,7 @@ class ScoresController < ApplicationController
 
   def edit
     @score = Score.find(params[:id])
+    #@score.notes.order("id DESC")
     #return render :text => CGI.escapeHTML(@score.notes.inspect).gsub(/,/,'<br>')
   end
 

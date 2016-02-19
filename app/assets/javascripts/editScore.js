@@ -34,7 +34,7 @@ var GameStatus = 0; // 0:Edit, 1:Playing
 var isPaused = true;
 
 var UI = {};
-var Color = ['Red','Orange','Yellow','Green','Cyan','Blue','Magenta']
+var Color = ['Red','Orange','Green','Cyan','Blue','darkviolet','Magenta']
 /*------------------------------------------------------------------------------
 Canvas
 ------------------------------------------------------------------------------*/
@@ -66,19 +66,11 @@ function mouseClickListener(e) {
   if (e.ctrlKey) GridY |= 0x40;
 
   var note = (Timbre << 8) | GridY;//複数の音色対応
-
   var scrollGridX = ScrollX + GridX;//Scroll制御
-
   var notes = Score.notes[Track.track-1].note[scrollGridX];
 
-  //ダブルクリックの判定(Score削除)
-  if(DoubleClick == null){
-    DoubleClick = setTimeout(function(){
-    DoubleClick = null;
-    },500);
-  }else{
-    DoubleClick = null;
-    //if (e.button == 2) {
+  //Score削除
+  if (e.button == 2) {
     for (var i = notes.length - 1; i >= 0; i--) {
       if ((notes[i] & 0x3F) == GridY) {
         notes.splice(i, 1);
@@ -87,8 +79,31 @@ function mouseClickListener(e) {
       }
     }
     return;
-    //}
   }
+
+//  //ダブルクリックの判定(Score削除)
+//  if(DoubleClick == null){
+//    DoubleClick = setTimeout(function(){
+//    DoubleClick = null;
+//    },500);
+//  }else{
+//    DoubleClick = null;
+//    if (e.shiftKey) GridY |= 0x80;
+//    if (e.ctrlKey) GridY |= 0x40;
+//    //if (e.button == 2) {
+//    for (var i = notes.length - 1; i >= 0; i--) {
+//      var aaa = (notes[i] & 0x3F)
+//      var bbb = aaa |= 0x80;
+//      console.log( aaa |= 0x80 , GridY)
+//      if ((notes[i] & 0x3F) == GridY || bbb == GridY) {
+//        notes.splice(i, 1);
+//        Score.notes[Track.track-1].note[scrollGridX] = notes;
+//        break;
+//      }
+//    }
+//    return;
+//    //}
+//  }
 
   //同じ音階はNG
   if (notes.indexOf(note) != -1) return;
@@ -128,7 +143,7 @@ function drawScore(timestamp) {
 
   //赤枠
   if(UA == 'pc' && GameStatus == 0){
-    if(GridY >= 12) GridY = 12;
+    //if(GridY >= 12) GridY = 12;
     var x = GridX * Grid;
     var y = GridY * GridHalf;
     Layer.lineWidth = 4;
@@ -187,6 +202,17 @@ function drawScore(timestamp) {
         var scale  = b[k] & 0x0F;
         //var scale  = b[j];//音階
         var y = scale * GridHalf + GridHalf + bound;
+
+        //半音
+        if ((b[k] & 0x80) != 0){
+          Layer.font= '2rem Gothic';
+          Layer.fillStyle = '#000';
+          Layer.fillText('#',x-60,y+10);
+        }else if ((b[k] & 0x40) != 0){
+          Layer.font= '2rem Gothic';
+          Layer.fillStyle = '#000';
+          Layer.fillText('♭',x+30,y+10);
+        }
 
         Layer.fillStyle = Color[Track.index[j%7]-1];
         Layer.globalAlpha = 0.5
@@ -314,8 +340,13 @@ MarchClass.prototype.play = function(timestamp) {
   var diff = timestamp - this.lastTime;
   if(diff>32) diff = 16;
   this.lastTime = timestamp;
-  var xpm = (Score.bpm / 60 * Grid) / 1000 // x per ms
-  var step = xpm * diff;
+
+  //BPM=1分間の拍数
+  //1拍のミリ秒数＝60÷BPM×定数A×1000（定数A：[全音符＝4,二分音符＝2,四分音符＝1,八分音符＝0.5,十六分音符＝0.25]）
+  var ms = 60 / Score.bpm * 1000 * 1;
+  //速さ = 距離(Grid) / 時間(ms)
+  var speed = Grid / ms;
+  var step = speed * diff;
 
   var nextBar = (this.pos - ScrollX) * Grid + GridHalf;
 
@@ -426,7 +457,6 @@ window.addEventListener('load', function(){
   //console.log(Score)
 
   //BPM
-  console.log(Score.bpm)
   $('#Bpm').val(Score.bpm);
   $('#Bpm').on('change', function(){
     var min = Number($('#Bpm').attr('min'));
@@ -447,7 +477,7 @@ window.addEventListener('load', function(){
     for(var i = 0; i < Score.notes.length; i++){
       var arr = Score.notes[i].note;
       if(Score.beat > arr.length){
-        var start = arr.length + 1;
+        var start = arr.length;
         var end = Score.beat;
         for(var j = start; j < end; j++) arr[j] = [];
       }else{
@@ -467,11 +497,15 @@ window.addEventListener('load', function(){
       GameStatus = 1;
       RAF(animePlay);
       $(this).text('Pause');
+      UI.scrool.disabled = true;
     }else{
+      GameStatus = 0;
       $(this).text('Play');
+      UI.scrool.disabled = false;
+      March.lastTime = 0;
+      March.scroll = 0;
     }
     isPaused = !isPaused;
-    UI.scrool.disabled = true;
   });
 
   $('#Stop').on('click', function(){
@@ -518,6 +552,9 @@ window.addEventListener('load', function(){
   UI.scrool.step = 1;
   UI.scrool.addEventListener('input', function(e) {
     March.pos = ScrollX = parseInt(this.value);
+    March.x = 0;
+    March.lastTime = 0;
+    March.scroll = 0;
   });
 
   //Track
