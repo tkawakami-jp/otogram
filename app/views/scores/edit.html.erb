@@ -7,7 +7,7 @@
 <div class="medium-6 medium-centered columns">
 
 <div class="text-center">
-  <canvas id="Canvas"></canvas>
+  <div id="Frame"><canvas id="Canvas"></canvas></div>
 </div>
 <div class="text-center">
   <button type="button" id="Play" class="button radius tiny">Play</button>
@@ -30,7 +30,7 @@
     <label style="font-size:0.75rem;height:1.5rem;line-height:1.5rem">小節</label>
   </div>
   <div class="small-3 columns end" style="padding-left:0.5rem;">
-    <input type="number" id="Measure" value="2" min="2" class="radius" style="padding:0;height:1.5rem;">
+    <input type="number" id="Measure" value="4" min="1" class="radius" style="padding:0;height:1.5rem;">
   </div>
 </div>
 
@@ -53,6 +53,7 @@
 
     <!--トラック-->
     <strong>Track<%= note_num %></strong>
+    <input type="hidden" class="TrackColor" value="<%= note_num %>">
     <!--表示-->
     <label class="text-small"><input type="checkbox" name="show" value="<%= note_num %>" checked="checked" style="vertical-align:0;margin-bottom:0;">表示</label>
     <!--編集-->
