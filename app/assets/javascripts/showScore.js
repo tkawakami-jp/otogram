@@ -57,55 +57,55 @@ Canvas.style.height = style_CanvasH;
 Canvas.style.background = 'rgba(255,255,255,1)';
 Canvas.style.borderRadius ='4px';
 
-Canvas.addEventListener('contextmenu', mouseClickListener);
-Canvas.addEventListener('click', mouseClickListener);
-
-function mouseClickListener(e) {
-  e.preventDefault();
-
-  if(GridY >= 35) return;//最下GreidはNG
-
-  //半音
-  if (e.shiftKey) GridY |= 0x80;
-  if (e.ctrlKey) GridY |= 0x40;
-  //console.log(("00000000"+GridY.toString(2)).slice(-8),("00000000"+0x80.toString(2)).slice(-8),("00000000"+(GridY |= 0x80).toString(2)).slice(-8))
-  //console.log(("00000000"+GridY.toString(2)).slice(-8),("00000000"+0x40.toString(2)).slice(-8),("00000000"+(GridY |= 0x40).toString(2)).slice(-8))
-
-  var note = (0 << 8) | GridY;//複数の音色対応
-  //console.log(note.toString(2),note.toString(10))
-
-  var scrollGridX = ScrollX + GridX;//Scroll制御
-  var notes = Score.notes[Track.track-1].note[scrollGridX];
-
-  //Score削除
-  if (e.button == 2) {
-    for (var i = notes.length - 1; i >= 0; i--) {
-      if ((notes[i] & 0x3F) == GridY) {
-        notes.splice(i, 1);
-        Score.notes[Track.track-1].note[scrollGridX] = notes;
-        break;
-      }
-    }
-    return;
-  }
-
-  //同じ音階はNG
-  if (notes.indexOf(note) != -1) return;
-
-  //Score記録
-  notes.push(note);
-
-  //音を出す
-  Sound[0].play(GridY);
-}
-
-Canvas.addEventListener('mousemove', function(e) {
-  var rect = event.target.getBoundingClientRect() ;
-  MouseX = (e.clientX - rect.left) * window.devicePixelRatio;
-  MouseY = (e.clientY - rect.top) * window.devicePixelRatio;
-  GridX = Math.floor(MouseX / Grid);
-  GridY = Math.floor(MouseY / GridHalf);
-});
+//Canvas.addEventListener('contextmenu', mouseClickListener);
+//Canvas.addEventListener('click', mouseClickListener);
+//
+//function mouseClickListener(e) {
+//  e.preventDefault();
+//
+//  if(GridY >= 35) return;//最下GreidはNG
+//
+//  //半音
+//  if (e.shiftKey) GridY |= 0x80;
+//  if (e.ctrlKey) GridY |= 0x40;
+//  //console.log(("00000000"+GridY.toString(2)).slice(-8),("00000000"+0x80.toString(2)).slice(-8),("00000000"+(GridY |= 0x80).toString(2)).slice(-8))
+//  //console.log(("00000000"+GridY.toString(2)).slice(-8),("00000000"+0x40.toString(2)).slice(-8),("00000000"+(GridY |= 0x40).toString(2)).slice(-8))
+//
+//  var note = (0 << 8) | GridY;//複数の音色対応
+//  //console.log(note.toString(2),note.toString(10))
+//
+//  var scrollGridX = ScrollX + GridX;//Scroll制御
+//  var notes = Score.notes[Track.track-1].note[scrollGridX];
+//
+//  //Score削除
+//  if (e.button == 2) {
+//    for (var i = notes.length - 1; i >= 0; i--) {
+//      if ((notes[i] & 0x3F) == GridY) {
+//        notes.splice(i, 1);
+//        Score.notes[Track.track-1].note[scrollGridX] = notes;
+//        break;
+//      }
+//    }
+//    return;
+//  }
+//
+//  //同じ音階はNG
+//  if (notes.indexOf(note) != -1) return;
+//
+//  //Score記録
+//  notes.push(note);
+//
+//  //音を出す
+//  Sound[0].play(GridY);
+//}
+//
+//Canvas.addEventListener('mousemove', function(e) {
+//  var rect = event.target.getBoundingClientRect() ;
+//  MouseX = (e.clientX - rect.left) * window.devicePixelRatio;
+//  MouseY = (e.clientY - rect.top) * window.devicePixelRatio;
+//  GridX = Math.floor(MouseX / Grid);
+//  GridY = Math.floor(MouseY / GridHalf);
+//});
 /*------------------------------------------------------------------------------
 drawScore
 ------------------------------------------------------------------------------*/
@@ -114,7 +114,8 @@ function drawScore(timestamp) {
   Layer.clearRect(0, 0, CanvasW, CanvasH);
 
   //横線
-  for(var i=1;i<SoundScale.length;i++){
+  for(var i=1;i<SoundScale.length+1;i++){
+    console.log(i)
     if(i%2==1){
       if(i == 21) {
         Layer.lineWidth = 4;
@@ -133,16 +134,16 @@ function drawScore(timestamp) {
     }
   }
 
-  //赤枠
-  if(UA == 'pc' && GameStatus == 0 && GridY < 35){
-    var x = GridX * Grid;
-    var y = GridY * GridHalf;
-    Layer.lineWidth = 4;
-    Layer.strokeStyle = 'rgba(255,0,0,1)';
-    Layer.beginPath();
-    Layer.rect(x,y,Grid,Grid);
-    Layer.stroke();
-  }
+//  //赤枠
+//  if(UA == 'pc' && GameStatus == 0 && GridY < 35){
+//    var x = GridX * Grid;
+//    var y = GridY * GridHalf;
+//    Layer.lineWidth = 4;
+//    Layer.strokeStyle = 'rgba(255,0,0,1)';
+//    Layer.beginPath();
+//    Layer.rect(x,y,Grid,Grid);
+//    Layer.stroke();
+//  }
 
   //進行棒
   if(GameStatus == 1){

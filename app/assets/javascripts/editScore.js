@@ -1,4 +1,6 @@
 var UA = (Modernizr.touch) ? 'sp' : 'pc';
+var DPR = window.devicePixelRatio;
+
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var AC = new AudioContext();
 var RAF = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
@@ -114,18 +116,37 @@ function drawScore(timestamp) {
   Layer.clearRect(0, 0, CanvasW, CanvasH);
 
   //横線
-  for(var i=1;i<SoundScale.length;i++){
+  for(var i=1;i<SoundScale.length+1;i++){
     if(i%2==1){
+      //ドの赤線
       if(i == 21) {
         Layer.lineWidth = 4;
         Layer.strokeStyle = 'rgba(255,0,0,1.0)';
-      }else if(i >= 11 && i <= 19) {
+      }
+      //ドの赤線
+      else if(i == 7 || i == 35) {
+        Layer.lineWidth = 2;
+        Layer.strokeStyle = 'rgba(255,0,0,0.5)';
+      }
+      //五線
+      else if(i >= 11 && i <= 19) {
         Layer.lineWidth = 4;
         Layer.strokeStyle = 'rgba(0,0,0,1.0)';
-      }else {
+      }
+      //その他の線
+      else {
         Layer.lineWidth = 2;
         Layer.strokeStyle = 'rgba(0,0,0,0.1)';
       }
+      Layer.beginPath();
+      Layer.moveTo(0, i*GridHalf);
+      Layer.lineTo(CanvasW, i*GridHalf);
+      Layer.stroke();
+    }
+    //ドの赤線
+    else if(i == 14 || i == 28) {
+      Layer.lineWidth = 2;
+      Layer.strokeStyle = 'rgba(255,0,0,0.5)';
       Layer.beginPath();
       Layer.moveTo(0, i*GridHalf);
       Layer.lineTo(CanvasW, i*GridHalf);
