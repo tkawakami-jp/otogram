@@ -57,7 +57,6 @@ Canvas.height = CanvasH;
 Canvas.style.width = style_CanvasW;
 Canvas.style.height = style_CanvasH;
 Canvas.style.background = 'rgba(255,255,255,1)';
-Canvas.style.borderRadius ='4px';
 
 Canvas.addEventListener('contextmenu', mouseClickListener);
 Canvas.addEventListener('click', mouseClickListener);
@@ -65,7 +64,7 @@ Canvas.addEventListener('click', mouseClickListener);
 function mouseClickListener(e) {
   e.preventDefault();
 
-  if(GridY >= 35) return;//最下GreidはNG
+  if(GridY >= 35 || GameStatus == 1) return;//最下GreidはNG
 
   //半音
   if (e.shiftKey) GridY |= 0x80;

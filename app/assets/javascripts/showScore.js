@@ -57,7 +57,6 @@ Canvas.height = CanvasH;
 Canvas.style.width = style_CanvasW;
 Canvas.style.height = style_CanvasH;
 Canvas.style.background = 'rgba(255,255,255,1)';
-Canvas.style.borderRadius ='4px';
 
 //Canvas.addEventListener('contextmenu', mouseClickListener);
 //Canvas.addEventListener('click', mouseClickListener);

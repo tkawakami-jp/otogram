@@ -5,9 +5,16 @@ Score
   padding: 20px 0;
 }
 #Score #Frame {
+  position: relative;
   margin: 0 auto 1rem;
-  width: 320px;
+  width: 328px;
   height: 320px;
-  overflow: scroll;
-  border-radius: 4px
+  overflow-x: hidden;
+}
+#Score #Frame::-webkit-scrollbar {
+width: 8px;
+}
+#Score #Frame::-webkit-scrollbar-thumb {
+border-radius: 4px;
+background: rgba(255,255,255,0.5);
 }

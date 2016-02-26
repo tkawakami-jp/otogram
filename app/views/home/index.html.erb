@@ -38,9 +38,9 @@
     <h1>ONLINE<br>シンプル作曲サービス<!--Your song, everywhere.--></h1>
     <p style="margin:0 auto;padding:0.5rem;width:20rem;font-size:0.75rem;border-top:1px solid #fff;border-bottom:1px solid #fff;">α版のため限定公開中。</p>
 
-    <div style="margin-top:20px;">
+    <div style="margin-top:20px;" id="Score">
       <h1 style="font-size:16px;color:#fff;">Twinkle Twinkle Little Star</h1>
-      <div id="Frame" style="margin: 0 auto 1rem;width:320px;height:320px;overflow:scroll;border-radius:4px;"><canvas id="Canvas"></canvas></div>
+      <div id="Frame"><canvas id="Canvas"></canvas></div>
       <div class="text-center">
         <button type="button" id="Play" class="button radius tiny">Play</button>
         <button type="button" id="Stop" class="button radius tiny">Stop</button>
@@ -54,6 +54,7 @@
     <input type="hidden" class="TrackColor" value="2">
     <input type="hidden" id="data1" value='{"note":[[13],[9],[11],[9],[13],[9],[11],[9],[13],[10],[13],[10],[9,11],[],[],[],[10,15],[13],[10,15],[13],[11,16],[13],[11,16],[13],[12,14],[16],[12],[14],[13,18],[],[],[],[18],[9],[18],[9],[19],[9],[19],[9],[20],[9],[20],[9],[21],[],[],[],[],[9,13],[],[9,13],[],[9,13],[],[9,13],[],[9,13],[],[9,13],[12,14],[],[],[],[18],[20],[18],[20],[18],[18],[18],[18],[17],[17],[17],[17],[9,18],[],[],[],[15],[17],[15],[14],[13],[16],[13],[],[12,16],[],[12,16],[],[13,18],[],[],[]],"bpm":100}'>
     <input type="hidden" id="data2" value='{"note":[[20],[],[20],[],[16],[],[16],[],[15],[],[15],[],[16],[],[],[],[17],[],[17],[],[18],[],[18],[],[19],[],[19],[],[20],[],[],[],[16],[],[16],[],[17],[],[17],[],[18],[],[18],[],[19],[],[],[],[16],[],[16],[],[17],[],[17],[],[18],[],[18],[],[19],[],[],[],[20],[],[20],[],[16],[],[16],[],[15],[],[15],[],[16],[],[],[],[17],[],[17],[],[18],[],[18],[],[19],[],[19],[],[20],[],[],[]],"bpm":100}'>
+    <% content_for :css do %><%= stylesheet_link_tag 'score' %><% end %>
     <% content_for :js do %><%= javascript_include_tag 'showScore' %><% end %>
 
   </div>
