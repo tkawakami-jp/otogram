@@ -28,7 +28,7 @@ var MouseY =0;
 var GridX = 0;
 var GridY = 0;
 
-var CanvasW = 320 * window.devicePixelRatio;
+var CanvasW = 320 * DPR;
 var GridCount = 8;
 var Grid = CanvasW / GridCount;
 var GridHalf = Grid / 2;
@@ -49,8 +49,8 @@ var Canvas = document.getElementById('Canvas');
 var Layer = Canvas.getContext('2d');
 
 //Canvasサイズ
-var style_CanvasW = CanvasW / window.devicePixelRatio + 'px';
-var style_CanvasH = CanvasH / window.devicePixelRatio + 'px';
+var style_CanvasW = CanvasW / DPR + 'px';
+var style_CanvasH = CanvasH / DPR + 'px';
 
 Canvas.width = CanvasW;
 Canvas.height = CanvasH;
@@ -120,22 +120,22 @@ function drawScore(timestamp) {
     if(i%2==1){
       //ドの赤線
       if(i == 21) {
-        Layer.lineWidth = 4;
+        Layer.lineWidth = 2 * DPR;
         Layer.strokeStyle = 'rgba(255,0,0,1.0)';
       }
       //ドの赤線
       else if(i == 7 || i == 35) {
-        Layer.lineWidth = 2;
+        Layer.lineWidth = 1 * DPR;
         Layer.strokeStyle = 'rgba(255,0,0,0.5)';
       }
       //五線
       else if(i >= 11 && i <= 19) {
-        Layer.lineWidth = 4;
+        Layer.lineWidth = 1 * DPR;
         Layer.strokeStyle = 'rgba(0,0,0,1.0)';
       }
       //その他の線
       else {
-        Layer.lineWidth = 2;
+        Layer.lineWidth = 1 * DPR;
         Layer.strokeStyle = 'rgba(0,0,0,0.1)';
       }
       Layer.beginPath();
@@ -145,7 +145,7 @@ function drawScore(timestamp) {
     }
     //ドの赤線
     else if(i == 14 || i == 28) {
-      Layer.lineWidth = 2;
+      Layer.lineWidth = 1 * DPR;
       Layer.strokeStyle = 'rgba(255,0,0,0.5)';
       Layer.beginPath();
       Layer.moveTo(0, i*GridHalf);
@@ -158,7 +158,7 @@ function drawScore(timestamp) {
   if(UA == 'pc' && GameStatus == 0 && GridY < 35){
     var x = GridX * Grid;
     var y = GridY * GridHalf;
-    Layer.lineWidth = 4;
+    Layer.lineWidth = 2 * DPR;
     Layer.strokeStyle = 'rgba(255,0,0,1)';
     Layer.beginPath();
     Layer.rect(x,y,Grid,Grid);
@@ -167,7 +167,7 @@ function drawScore(timestamp) {
 
   //進行棒
   if(GameStatus == 1){
-    Layer.lineWidth = 4;
+    Layer.lineWidth = 2 * DPR;
     Layer.strokeStyle = 'rgba(0,0,0,0.5)';
     Layer.beginPath();
     Layer.moveTo(March.x, 0);
@@ -186,13 +186,13 @@ function drawScore(timestamp) {
 
     //縦線
     if(i%8 == orangeBarLine) {
-      Layer.lineWidth = 4;
+      Layer.lineWidth = 2 * DPR;
       Layer.strokeStyle = 'rgba(255,204,0,1.0)';
     } else if(i%2 == blackBarLine) {
-      Layer.lineWidth = 4;
+      Layer.lineWidth = 2 * DPR;
       Layer.strokeStyle = 'rgba(190,190,190,0.5)';
     } else {
-      Layer.lineWidth = 2;
+      Layer.lineWidth = 1 * DPR;
       Layer.strokeStyle = 'rgba(0,0,0,0.1)';
     }
     Layer.beginPath();
@@ -203,7 +203,7 @@ function drawScore(timestamp) {
     //跳ね
     var bound = 0;
     if(March.pos-1 == barNum){
-      var index = Math.round((March.x - x) / 3)
+      var index = Math.round((March.x - x) / (1.5 * DPR))
       var arr = [0,2,5,5,10,10,15,15,20,20,25,25,30,30,30,30,30,25,25,20,20,15,15,10,10,5,5,2,2,0];
       bound = arr[index];
     }
@@ -224,13 +224,19 @@ function drawScore(timestamp) {
 
         //半音
         if ((b[k] & 0x80) != 0){
-          Layer.font= '3rem Gothic';
+          var fontSize = (1.5 * DPR)+'rem Gothic';
+          var fontX = x-(7.5 * DPR);
+          var fontY = y+(9.5 * DPR);
+          Layer.font = fontSize;
           Layer.fillStyle = '#000';
-          Layer.fillText('#',x-15,y+19);
+          Layer.fillText('#',fontX,fontY);
         }else if ((b[k] & 0x40) != 0){
-          Layer.font= '3rem Gothic';
+          var fontSize = (1.5 * DPR)+'rem Gothic';
+          var fontX = x-(10 * DPR);
+          var fontY = y+(9 * DPR);
+          Layer.font= fontSize;
           Layer.fillStyle = '#000';
-          Layer.fillText('♭',x-20,y+18);
+          Layer.fillText('♭',fontX,fontY);
         }
         Layer.fillStyle = 'rgba('+Color[Track.color[j%7]-1]+')';
         Layer.beginPath();
@@ -360,15 +366,18 @@ MarchClass.prototype.play = function(timestamp) {
   this.lastTime = timestamp;
 
   //BPM=1分間の拍数
-  //1拍のミリ秒数＝60÷BPM×定数A×1000（定数A：[全音符＝4,二分音符＝2,四分音符＝1,八分音符＝0.5,十六分音符＝0.25]）
+  //1拍の㍉秒数＝60÷BPM×定数A×1000（定数A：[全音符＝4,二分音符＝2,四分音符＝1,八分音符＝0.5,十六分音符＝0.25]）
   var ms = 60 / Score.bpm * 1000 * 0.5;
   //速さ = 距離(Grid) / 時間(ms)
   var speed = Grid / ms;
+  //???
   var step = speed * diff;
 
   var nextBar = (this.pos - ScrollX) * Grid + GridHalf;
 
-  if(this.x < 280){ //START
+  var targetX = (Grid * 4 - GridHalf)
+
+  if(this.x < targetX){ //START
     this.x += step;
     if(this.x >= nextBar) {
       for(var i = 0; i < Score.notes.length; i++){
@@ -380,9 +389,9 @@ MarchClass.prototype.play = function(timestamp) {
       this.pos++;
     }
   }else if(ScrollX < ScrollMax){ //SCROLL
-    this.x = 280;
+    this.x = targetX;
     this.scroll += step;
-    if(this.scroll >= 80){
+    if(this.scroll >= Grid){
       for(var i = 0; i < Score.notes.length; i++){
         //演奏判定
         if(Track.show.indexOf(String(i+1)) >= 0 && Score.notes[i].note){
@@ -390,7 +399,7 @@ MarchClass.prototype.play = function(timestamp) {
         }
       }
       this.pos++;
-      this.scroll -= 80;
+      this.scroll -= Grid;
       ScrollX++;
       UI.scroll.value = ScrollX;
     }
@@ -432,7 +441,7 @@ function animeStop() {
   March.scroll = 0;
   GameStatus = 0;
 
-  UI.scroll.value = ScrollX = 0
+  UI.scroll.value = ScrollX = 0;
 }
 /*------------------------------------------------------------------------------
 Load
