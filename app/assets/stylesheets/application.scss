@@ -135,6 +135,10 @@ button:hover, button:focus, .button:hover, .button:focus {
 button.expand, .button.expand {
   padding: 0.625rem;
 }
+select {
+  border: 2px solid #990099;
+  border-radius: 4px;
+}
 /*------------------------------------------------------------------------------
 radio,checkbox
 ------------------------------------------------------------------------------*/

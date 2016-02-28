@@ -1,4 +1,4 @@
-var UA = (Modernizr.touch) ? 'sp' : 'pc';
+var TOUCH = Modernizr.touch;
 var DPR = window.devicePixelRatio;
 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -11,12 +11,16 @@ var Score = {};
 var March = null;
 var SoundNum = 20;//音源
 var SoundScale = [ //音階
-  35,33,31,29,28,26,24,       //C6
-  23,21,19,17,16,14,12,       //C5
-  11,9,7,5,4,2,0,             //C4
-  -1,-3,-5,-7,-8,-10,-12,     //C3
-  -13,-15,-17,-19,-20,-22,-24 //C2
+  35,33,31,29,28,26,24,        //C6
+  23,21,19,17,16,14,12,        //C5
+  11,9,7,5,4,2,0,              //C4
+  -1,-3,-5,-7,-8,-10,-12,      //C3
+  -13,-15,-17,-19,-20,-22,-24, //C2
+  -25,-27,-29,-31,-32,-34,-36  //C1
 ];
+var LineC = 21;
+var LineT = [11,19];
+var LineH = [23,31];
 //var ScoreLength = 93;//拍数 現在8以上
 
 //var Timbre = 0;
@@ -64,7 +68,7 @@ Canvas.addEventListener('click', mouseClickListener);
 function mouseClickListener(e) {
   e.preventDefault();
 
-  if(GridY >= 35 || GameStatus == 1) return;//最下GreidはNG
+  if(GridY >= SoundScale.length || GameStatus == 1) return;//最下GreidはNG
 
   //半音
   if (e.shiftKey) GridY |= 0x80;
@@ -73,7 +77,7 @@ function mouseClickListener(e) {
   //console.log(("00000000"+GridY.toString(2)).slice(-8),("00000000"+0x40.toString(2)).slice(-8),("00000000"+(GridY |= 0x40).toString(2)).slice(-8))
 
   var note = (0 << 8) | GridY;//複数の音色対応
-  //console.log(note.toString(2),note.toString(10))
+  //console.log(("00000000"+note.toString(2)).slice(-8),'GridY:'+note.toString(10),'SoundScale:'+SoundScale[note.toString(10)])
 
   var scrollGridX = ScrollX + GridX;//Scroll制御
   var notes = Score.notes[Track.track-1].note[scrollGridX];
@@ -97,7 +101,7 @@ function mouseClickListener(e) {
   notes.push(note);
 
   //音を出す
-  Sound[0].play(GridY);
+  Sound[0].play(note);
 }
 
 Canvas.addEventListener('mousemove', function(e) {
@@ -117,20 +121,20 @@ function drawScore(timestamp) {
   //横線
   for(var i=1;i<SoundScale.length+1;i++){
     if(i%2==1){
-      //ドの赤線
-      if(i == 21) {
+      //五線(ト音記号)
+      if(i >= LineT[0] && i <= LineT[1]) {
         Layer.lineWidth = 2 * DPR;
-        Layer.strokeStyle = 'rgba(255,0,0,1.0)';
+        Layer.strokeStyle = 'rgba(0,0,0,1.0)';
       }
       //ドの赤線
-      else if(i == 7 || i == 35) {
-        Layer.lineWidth = 1 * DPR;
-        Layer.strokeStyle = 'rgba(255,0,0,0.5)';
+      else if(i == LineC) {
+        Layer.lineWidth = 2 * DPR;
+        Layer.strokeStyle = 'rgba(255,0,0,0.2)';
       }
-      //五線
-      else if(i >= 11 && i <= 19) {
-        Layer.lineWidth = 1 * DPR;
-        Layer.strokeStyle = 'rgba(0,0,0,1.0)';
+      //五線(ヘ音記号)
+      else if(i >= LineH[0] && i <= LineH[1]) {
+        Layer.lineWidth = 2 * DPR;
+        Layer.strokeStyle = 'rgba(0,0,255,0.2)';
       }
       //その他の線
       else {
@@ -142,19 +146,10 @@ function drawScore(timestamp) {
       Layer.lineTo(CanvasW, i*GridHalf);
       Layer.stroke();
     }
-    //ドの赤線
-    else if(i == 14 || i == 28) {
-      Layer.lineWidth = 1 * DPR;
-      Layer.strokeStyle = 'rgba(255,0,0,0.5)';
-      Layer.beginPath();
-      Layer.moveTo(0, i*GridHalf);
-      Layer.lineTo(CanvasW, i*GridHalf);
-      Layer.stroke();
-    }
   }
 
   //赤枠
-  if(UA == 'pc' && GameStatus == 0 && GridY < 35){
+  if(!TOUCH && GameStatus == 0 && GridY < SoundScale.length){
     var x = GridX * Grid;
     var y = GridY * GridHalf;
     Layer.lineWidth = 2 * DPR;
@@ -175,7 +170,8 @@ function drawScore(timestamp) {
   }
 
   //縦線用
-  var orangeBarLine = 7 - ((ScrollX+7) % 8);
+  //Score.beat;
+  var orangeBarLine = Score.beat-1 - ((ScrollX+Score.beat-1) % Score.beat);
   var blackBarLine = 1 - ((ScrollX+1) % 2);
 
   for (var i=0; i<GridCount+1; i++) {
@@ -184,7 +180,7 @@ function drawScore(timestamp) {
     var barNum = ScrollX + i;//scroll制御
 
     //縦線
-    if(i%8 == orangeBarLine) {
+    if(i%Score.beat == orangeBarLine) {
       Layer.lineWidth = 2 * DPR;
       Layer.strokeStyle = 'rgba(255,204,0,1.0)';
     } else if(i%2 == blackBarLine) {
@@ -275,15 +271,17 @@ SoundClass.prototype.play = function(scale) {
   source.start(0);
 };
 SoundClass.prototype.playChord = function(noteList) {
+  var semitoneRatio = Math.pow(2, 1/12);
 
   for (var i = 0; i < noteList.length; i++) {
     var scale = noteList[i] & 0x3F;//音階
     var semitone = this.diff[scale];
-    var semitoneRatio = Math.pow(2, 1/12);
 
     //半音
     if ((noteList[i] & 0x80) != 0) semitone++;
     else if ((noteList[i] & 0x40) != 0) semitone--;
+    console.log(("00000000"+noteList[i].toString(2)).slice(-8),("00000000"+0x3F.toString(2)).slice(-8),("00000000"+scale.toString(2)).slice(-8))
+
 
     var source = AC.createBufferSource();
     source.buffer = this.buffer;
@@ -330,7 +328,7 @@ function MarchClass() {
 MarchClass.prototype.play = function(timestamp) {
 
   //小節END
-  if(this.pos > Score.beat){
+  if(this.pos > Score.len){
     Sound[17].play(8);
     UI.scroll.disabled = false;
     animeStop();
@@ -346,7 +344,7 @@ MarchClass.prototype.play = function(timestamp) {
       var note = notes[i];
 
       var timbre = note >> 8;//音色
-      var scale = note & 0x3F;//音階
+      var scale = note; //& 0x3F //音階
       //console.log(note, timbre, scale)
 
       if  (!dic[timbre]) dic[timbre] = [scale];
@@ -365,8 +363,8 @@ MarchClass.prototype.play = function(timestamp) {
   this.lastTime = timestamp;
 
   //BPM=1分間の拍数
-  //1拍の㍉秒数＝60÷BPM×定数A×1000（定数A：[全音符＝4,二分音符＝2,四分音符＝1,八分音符＝0.5,十六分音符＝0.25]）
-  var ms = 60 / Score.bpm * 1000 * 0.5;
+  //1拍の㍉秒数＝60÷BPM×1000×定数A（定数A：[全音符＝4,二分音符＝2,四分音符＝1,八分音符＝0.5,十六分音符＝0.25]）
+  var ms = 60 / Score.bpm * 1000 * (4 / Score.beat);
   //速さ = 距離(Grid) / 時間(ms)
   var speed = Grid / ms;
   //???
@@ -448,7 +446,7 @@ Load
 window.addEventListener('load', function(){
 
   //自動スクロール
-   $('#Frame').scrollTop(160);
+   $('#Frame').scrollTop(GridHalf * 4);
 
   //Sound
   for (var i = 1; i <= SoundNum; i++) {
@@ -463,27 +461,32 @@ window.addEventListener('load', function(){
   var len = $('[id^=data]').length;
   for(var i=1;i<=len;i++){
     var text = $('#data'+i).val();
+    //Dataがある
     if(text != ''){
       var data = JSON.parse(JSON.stringify(JSON.parse(text)));
       Score.notes[i-1] = data;
       if(i==1){
         Score.bpm = data.bpm;
-        Score.beat = data.note.length;
+        Score.beat = data.beat;
+        Score.len = data.note.length;
       }
-    }else if(text == '' && i == 1){
+    }
+    //Dataがない＆トラック１
+    else if(text == '' && i == 1){
       Score.bpm = $('#Bpm').val();
-      Score.beat = 8 * $('#Measure').val();//拍子 * 小節
+      Score.beat = $('#Beat').val();
+      Score.len = Score.beat * $('#Measure').val();//拍子 * 小節
       var arr = [];
-      for (var j=0;j<Score.beat;j++) arr[j] = [];
-      Score.notes[i-1] = {note: arr};
-    }else{
-      var arr = [];
-      for (var j=0;j<Score.beat;j++) arr[j] = [];
+      for (var j=0;j<Score.len;j++) arr[j] = [];
       Score.notes[i-1] = {note: arr};
     }
-    ScrollMax = Score.beat - GridCount;
+    //Dataがない＆トラック２以降
+    else{
+      var arr = [];
+      for (var j=0;j<Score.len;j++) arr[j] = [];
+      Score.notes[i-1] = {note: arr};
+    }
   }
-  //console.log(Score)
 
   //BPM
   $('#Bpm').val(Score.bpm);
@@ -491,33 +494,49 @@ window.addEventListener('load', function(){
     var min = Number($('#Bpm').attr('min'));
     var bpm = Number($('#Bpm').val());
     if(bpm < min) return $('#Bpm').val(min);
-
     Score.bpm = bpm;
+    //console.log(Score)
+  });
+  //Beat
+  $('#Beat').val(Score.beat);
+  $('#Beat').on('change', function(){
+    Score.beat = Number($('#Beat').val());
+    $('#Measure').val(Score.len / Score.beat);
+
+    UI.scroll.max = ScrollMax = Score.len - GridCount;
+    UI.scroll.disabled = false;
+    animeStop();
+    //console.log(Score)
   });
   //小節
-  $('#Measure').val(Score.beat / 8)
+  $('#Measure').val(Score.len / Score.beat)
   $('#Measure').on('change', function(){
     var min = Number($('#Measure').attr('min'));
     var measure = Number($('#Measure').val());
     if(measure < min) return $('#Measure').val(min);
 
-    Score.beat = measure * 8;
+    var beat = Number($('#Beat').val());
+    Score.len = measure * beat;
 
     for(var i = 0; i < Score.notes.length; i++){
       var arr = Score.notes[i].note;
-      if(Score.beat > arr.length){
+      if(Score.len > arr.length){
         var start = arr.length;
-        var end = Score.beat;
+        var end = Score.len;
         for(var j = start; j < end; j++) arr[j] = [];
       }else{
-        var diff = arr.length - Score.beat;
+        var diff = arr.length - Score.len;
         for (var j = 0; j < diff; j++) arr.pop();
       }
     }
-    UI.scroll.max = ScrollMax = Score.beat - GridCount;
+
+    UI.scroll.max = ScrollMax = Score.len - GridCount;
     UI.scroll.disabled = false;
     animeStop();
+    //console.log(Score)
   });
+
+  //console.log(Score)
 
   //Button
   $('#Play').on('click', function(){
@@ -548,17 +567,17 @@ window.addEventListener('load', function(){
     animeStop();
     for (var j=0;j<Score.notes.length;j++){
       var arr = [];
-      for (var i=0;i<Score.beat;i++) arr[i] = [];
+      for (var i=0;i<Score.len;i++) arr[i] = [];
       Score.notes[j] = {note: arr};
     }
   });
 
-  if(UA=='sp') $('#Data').css('display','none');
+  if(TOUCH) $('#Data').css('display','none');
   $('#Data').on('click', function(){
     Sound[17].play(8);
     for (var i=1;i<=Score.notes.length;i++){
       var noteArr = Score.notes[i-1].note;
-      var json = JSON.stringify({"note":noteArr,"bpm":Score.bpm})
+      var json = JSON.stringify({"note":noteArr,"bpm":Score.bpm,"beat":Score.beat,"len":Score.len})
       console.log(json)
     }
   });
@@ -567,13 +586,13 @@ window.addEventListener('load', function(){
     e.preventDefault();
     for (var i=1;i<=Score.notes.length;i++){
       var noteArr = Score.notes[i-1].note;
-      var json = JSON.stringify({"note":noteArr,"bpm":Score.bpm})
+      var json = JSON.stringify({"note":noteArr,"bpm":Score.bpm,"beat":Score.beat,"len":Score.len})
       $('#data'+i).val(json);
     }
     $(this)[0].submit();
   });
 
-
+  ScrollMax = Score.len - GridCount;
   UI.scroll = document.querySelector('#Scroll');
   UI.scroll.max = ScrollMax;
   UI.scroll.min = 0;

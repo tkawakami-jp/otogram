@@ -73,17 +73,27 @@
 
   <!--BPM & 小節-->
   <div class="row">
-    <div class="small-1 small-offset-2 columns" style="padding:0;text-align:right">
+    <div class="small-1 columns" style="padding:0;text-align:right">
       <label style="font-size:0.75rem;height:1.5rem;line-height:1.5rem">BPM</label>
     </div>
     <div class="small-3 columns" style="padding-left:0.5rem;">
       <input type="number" id="Bpm" value="120" min="30" class="radius" style="padding:0;height:1.5rem;">
     </div>
     <div class="small-1 columns" style="padding:0;text-align:right">
+      <label style="font-size:0.75rem;height:1.5rem;line-height:1.5rem">1拍</label>
+    </div>
+    <div class="small-3 columns" style="padding-left:0.5rem;">
+      <select id="Beat" style="padding:0;height:1.5rem;">
+      <option value="4">4分音符</option>
+      <option value="8" selected>8分音符</option>
+      <option value="16">16分音符</option>
+      </select>
+    </div>
+    <div class="small-1 columns" style="padding:0;text-align:right">
       <label style="font-size:0.75rem;height:1.5rem;line-height:1.5rem">小節</label>
     </div>
     <div class="small-3 columns end" style="padding-left:0.5rem;">
-      <input type="number" id="Measure" value="4" min="1" class="radius" style="padding:0;height:1.5rem;">
+      <input type="number" id="Measure" value="4" min="2" class="radius" style="padding:0;height:1.5rem;">
     </div>
   </div>
 
