@@ -9,7 +9,7 @@ var CAF = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
 var Sound = [];
 var Score = {};
 var March = null;
-var SoundNum = 20;//音源
+var SoundNum = 28;//音源
 var SoundScale = [ //音階
   35,33,31,29,28,26,24,        //C6
   23,21,19,17,16,14,12,        //C5
@@ -280,7 +280,7 @@ SoundClass.prototype.playChord = function(noteList) {
     //半音
     if ((noteList[i] & 0x80) != 0) semitone++;
     else if ((noteList[i] & 0x40) != 0) semitone--;
-    console.log(("00000000"+noteList[i].toString(2)).slice(-8),("00000000"+0x3F.toString(2)).slice(-8),("00000000"+scale.toString(2)).slice(-8))
+    //console.log(("00000000"+noteList[i].toString(2)).slice(-8),("00000000"+0x3F.toString(2)).slice(-8),("00000000"+scale.toString(2)).slice(-8))
 
 
     var source = AC.createBufferSource();
@@ -344,12 +344,13 @@ MarchClass.prototype.play = function(timestamp) {
       var note = notes[i];
 
       var timbre = note >> 8;//音色
-      var scale = note; //& 0x3F //音階
+      var scale = note; //音階
+      //var scale = note & 0xFF;
       //console.log(note, timbre, scale)
 
       if  (!dic[timbre]) dic[timbre] = [scale];
       else dic[timbre].push(scale);
-      //console.log(dic[num])
+      //console.log(dic[timbre])
     }
     for (var i in dic) {
       Sound[i].playChord(dic[i]);
@@ -593,6 +594,8 @@ window.addEventListener('load', function(){
   });
 
   ScrollMax = Score.len - GridCount;
+
+  //Scroll
   UI.scroll = document.querySelector('#Scroll');
   UI.scroll.max = ScrollMax;
   UI.scroll.min = 0;
@@ -603,6 +606,26 @@ window.addEventListener('load', function(){
     March.x = 0;
     March.lastTime = 0;
     March.scroll = 0;
+  });
+  $('#ArrowLeft').on('click', function(e){
+    e.preventDefault();
+    if(UI.scroll.min < ScrollX){
+      ScrollX--;
+      UI.scroll.value = March.pos = ScrollX;
+      March.x = 0;
+      March.lastTime = 0;
+      March.scroll = 0;
+    }
+  });
+  $('#ArrowRight').on('click', function(e){
+    e.preventDefault();
+    if(UI.scroll.max > ScrollX){
+      ScrollX++;
+      UI.scroll.value = March.pos = ScrollX;
+      March.x = 0;
+      March.lastTime = 0;
+      March.scroll = 0;
+    }
   });
 
   //Track
