@@ -38,24 +38,42 @@
     <h1>ONLINE<br>シンプル作曲サービス<!--Your song, everywhere.--></h1>
     <p style="margin:0 auto;padding:0.5rem;width:20rem;font-size:0.75rem;border-top:1px solid #fff;border-bottom:1px solid #fff;">α版のため限定公開中。</p>
 
-    <div style="margin-top:20px;" id="Score">
-      <h1 style="font-size:16px;color:#fff;">Twinkle Twinkle Little Star</h1>
-      <div id="Frame"><canvas id="Canvas"></canvas></div>
-      <div class="text-center">
-        <button type="button" id="Play" class="button radius tiny">Play</button>
-        <button type="button" id="Stop" class="button radius tiny">Stop</button>
-      </div>
-      <div class="text-center">
-        <%= link_to "https://twitter.com/intent/tweet?text=オトグラム(仮)｜ONLINEシンプル作曲サービス｜&url=#{root_url}",target:"_blank" do %><i class="fa fa-twitter-square fa-lg" style="color:#fff;"><span class="text-small">ツイート</span></i><% end %>
-        <%= link_to "http://www.facebook.com/sharer.php?u=#{root_url}",target:"_blank" do %><i class="fa fa-facebook-square fa-lg" style="color:#fff;"><span class="text-small">シェア</span></i><% end %>
-      </div>
-    </div>
+<div style="margin-top:20px;text-align:left;" id="Score">
+
+  <h2>Twinkle Twinkle Little Star</h2>
+  <div id="Frame"><canvas id="Canvas"></canvas></div>
+
+  <div class="text-center" style="margin-bottom:0.75rem;">
+    <a href="#" id="ArrowLeft" style="vertical-align: middle;"><i class="fa fa-arrow-circle-o-left fa-lg"></i></a>
+    <input type="range" id="Scroll">
+    <a href="#" id="ArrowRight" style="vertical-align: middle;"><i class="fa fa-arrow-circle-o-right fa-lg"></i></a>
+  </div>
+
+  <div class="text-center" style="margin-bottom:0.75rem;">
+    <button type="button" id="Play" class="button radius tiny" style="margin-bottom:0;">Play</button>
+    <button type="button" id="Stop" class="button radius tiny" style="margin-bottom:0;">Stop</button>
+  </div>
+
+  <ul style="font-size:0.75rem;">
+    <li>
+      <strong>Track1</strong>
+      <label><input type="checkbox" name="show" value="1" checked="checked" style="vertical-align:0;margin-bottom:0;">演奏</label>
+      <span>created by </span><strong>Takahiro</strong>
+    </li>
     <input type="hidden" class="TrackColor" value="1">
+    <input type="hidden" id="data1" value="{&quot;note&quot;:[[20],[],[20],[],[16],[],[16],[],[15],[],[15],[],[16],[],[],[],[17],[],[17],[],[18],[],[18],[],[19],[],[19],[],[20],[],[],[],[16],[],[16],[],[17],[],[17],[],[18],[],[18],[],[19],[],[],[],[16],[],[16],[],[17],[],[17],[],[18],[],[18],[],[19],[],[],[],[20],[],[20],[],[16],[],[16],[],[15],[],[15],[],[16],[],[],[],[17],[],[17],[],[18],[],[18],[],[19],[],[19],[],[20],[],[],[]],&quot;bpm&quot;:100,&quot;beat&quot;:8,&quot;len&quot;:96}">
+    <li>
+      <strong>Track2</strong>
+      <label><input type="checkbox" name="show" value="2" checked="checked" style="vertical-align:0;margin-bottom:0;">演奏</label>
+      <span>created by </span><strong>Takahiro</strong>
+    </li>
     <input type="hidden" class="TrackColor" value="2">
-    <input type="hidden" id="data1" value='{"note":[[13],[9],[11],[9],[13],[9],[11],[9],[13],[10],[13],[10],[9,11],[],[],[],[10,15],[13],[10,15],[13],[11,16],[13],[11,16],[13],[12,14],[16],[12],[14],[13,18],[],[],[],[18],[9],[18],[9],[19],[9],[19],[9],[20],[9],[20],[9],[21],[],[],[],[],[9,13],[],[9,13],[],[9,13],[],[9,13],[],[9,13],[],[9,13],[12,14],[],[],[],[18],[20],[18],[20],[18],[18],[18],[18],[17],[17],[17],[17],[9,18],[],[],[],[15],[17],[15],[14],[13],[16],[13],[],[12,16],[],[12,16],[],[13,18],[],[],[]],"bpm":100}'>
-    <input type="hidden" id="data2" value='{"note":[[20],[],[20],[],[16],[],[16],[],[15],[],[15],[],[16],[],[],[],[17],[],[17],[],[18],[],[18],[],[19],[],[19],[],[20],[],[],[],[16],[],[16],[],[17],[],[17],[],[18],[],[18],[],[19],[],[],[],[16],[],[16],[],[17],[],[17],[],[18],[],[18],[],[19],[],[],[],[20],[],[20],[],[16],[],[16],[],[15],[],[15],[],[16],[],[],[],[17],[],[17],[],[18],[],[18],[],[19],[],[19],[],[20],[],[],[]],"bpm":100}'>
-    <% content_for :css do %><%= stylesheet_link_tag 'score' %><% end %>
-    <% content_for :js do %><%= javascript_include_tag 'showScore' %><% end %>
+    <input type="hidden" id="data2" value="{&quot;note&quot;:[[13],[9],[11],[9],[13],[9],[11],[9],[13],[10],[13],[10],[9,11],[],[],[],[10,15],[13],[10,15],[13],[11,16],[13],[11,16],[13],[12,14],[16],[12],[14],[13,18],[],[],[],[18],[9],[18],[9],[19],[9],[19],[9],[20],[9],[20],[9],[21],[],[],[],[],[9,13],[],[9,13],[],[9,13],[],[9,13],[],[9,13],[],[9,13],[12,14],[],[],[],[18],[20],[18],[20],[18],[18],[18],[18],[17],[17],[17],[17],[9,18],[],[],[],[15],[17],[15],[14],[13],[16],[13],[],[12,16],[],[12,16],[],[13,18],[],[],[]],&quot;bpm&quot;:100,&quot;beat&quot;:8,&quot;len&quot;:96}">
+  </ul>
+
+  <% content_for :css do %><%= stylesheet_link_tag 'score' %><% end %>
+  <% content_for :js do %><%= javascript_include_tag 'showScore' %><% end %>
+</div>
 
   </div>
   </div>

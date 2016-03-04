@@ -29,7 +29,7 @@
   <!--トラック-->
   <ul>
   <%= f.fields_for :notes, @score.notes.sort_by(&:id) do |notes_fields| %>
-  <li style="margin-bottom:0.75rem;">
+  <li style="margin-bottom:0.75rem;font-size:0.75rem;">
     <%= notes_fields.hidden_field :id %>
     <% note_num = notes_fields.options[:child_index]+1 %>
     <% note_user = notes_fields.object.user %>
@@ -44,21 +44,21 @@
     <strong>Track<%= note_num %></strong>
     <input type="hidden" class="TrackColor" value="<%= note_num %>">
     <!--表示-->
-    <label class="text-small"><input type="checkbox" name="show" value="<%= note_num %>" checked="checked" style="vertical-align:0;margin-bottom:0;">表示</label>
+    <label><input type="checkbox" name="show" value="<%= note_num %>" checked="checked" style="vertical-align:0;margin-bottom:0;">表示</label>
     <!--編集-->
     <% if current_user == note_user %>
-      <label class="text-small"><input type="radio" <%= checked %> name="track" value="<%= note_num %>" style="vertical-align:0;margin-bottom:0;">編集</label>
+      <label><input type="radio" <%= checked %> name="track" value="<%= note_num %>" style="vertical-align:0;margin-bottom:0;">編集</label>
     <% else %>
-      <label class="text-small"><input type="radio" <%= checked %> name="track" value="<%= note_num %>" style="vertical-align:0;margin-bottom:0;" disabled='disabled'>編集</label>
+      <label><input type="radio" <%= checked %> name="track" value="<%= note_num %>" style="vertical-align:0;margin-bottom:0;" disabled='disabled'>編集</label>
     <% end %>
     <!--削除-->
     <% if current_user == note_user && note_num != 1 %>
-      <label class="text-small"><%= notes_fields.check_box :_destroy, style:'vertical-align:0;margin-bottom:0;' %>削除</label>
+      <label><%= notes_fields.check_box :_destroy, style:'vertical-align:0;margin-bottom:0;' %>削除</label>
     <% else %>
-      <label class="text-small"><%= notes_fields.check_box :_destroy, style:'vertical-align:0;margin-bottom:0;', disabled:'disabled' %>削除</label>
+      <label><%= notes_fields.check_box :_destroy, style:'vertical-align:0;margin-bottom:0;', disabled:'disabled' %>削除</label>
     <% end %>
     <!--作成者-->
-    <span class="text-small">created by </span><strong><%= notes_fields.object.user.username %></strong>
+    <span>created by </span><strong><%= note_user.username %></strong>
     <!--Data-->
     <%= notes_fields.hidden_field :data, id: 'data'+(notes_fields.options[:child_index]+1).to_s %>
   </li>

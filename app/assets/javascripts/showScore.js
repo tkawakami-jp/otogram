@@ -206,7 +206,7 @@ function drawScore(timestamp) {
     //楽譜
     for(var j = 0; j < Score.notes.length; j++){
       //表示判定
-      if(Score.notes[j].note){
+      if(Track.show.indexOf(String(j+1)) >= 0 && Score.notes[j].note){
 
       var b = Score.notes[j].note[barNum];
       if(b == undefined) continue;
@@ -330,7 +330,7 @@ MarchClass.prototype.play = function(timestamp) {
   //小節END
   if(this.pos > Score.len){
     Sound[17].play(8);
-    //UI.scroll.disabled = false;
+    UI.scroll.disabled = false;
     animeStop();
     //isPaused = true;
   }
@@ -380,7 +380,7 @@ MarchClass.prototype.play = function(timestamp) {
     if(this.x >= nextBar) {
       for(var i = 0; i < Score.notes.length; i++){
         //演奏判定
-        if(Score.notes[i].note){
+        if(Track.show.indexOf(String(i+1)) >= 0 && Score.notes[i].note){
           scheduleAndPlay(Score.notes[i].note[this.pos]);
         }
       }
@@ -392,21 +392,21 @@ MarchClass.prototype.play = function(timestamp) {
     if(this.scroll >= Grid){
       for(var i = 0; i < Score.notes.length; i++){
         //演奏判定
-        if(Score.notes[i].note){
+        if(Track.show.indexOf(String(i+1)) >= 0 && Score.notes[i].note){
           scheduleAndPlay(Score.notes[i].note[this.pos]);
         }
       }
       this.pos++;
       this.scroll -= Grid;
       ScrollX++;
-      //UI.scroll.value = ScrollX;
+      UI.scroll.value = ScrollX;
     }
   }else{ //END
     this.x += step;
     if(this.x >= nextBar) {
       for(var i = 0; i < Score.notes.length; i++){
         //演奏判定
-        if(Score.notes[i].note){
+        if(Track.show.indexOf(String(i+1)) >= 0 && Score.notes[i].note){
           scheduleAndPlay(Score.notes[i].note[this.pos]);
         }
       }
@@ -439,7 +439,7 @@ function animeStop() {
   March.scroll = 0;
   GameStatus = 0;
 
-  ScrollX = 0;
+  UI.scroll.value = ScrollX = 0;
 }
 /*------------------------------------------------------------------------------
 Load
@@ -504,8 +504,8 @@ window.addEventListener('load', function(){
     Score.beat = Number($('#Beat').val());
     $('#Measure').val(Score.len / Score.beat);
 
-    ScrollMax = Score.len - GridCount;
-    //UI.scroll.disabled = false;
+    UI.scroll.max = ScrollMax = Score.len - GridCount;
+    UI.scroll.disabled = false;
     animeStop();
     //console.log(Score)
   });
@@ -531,8 +531,8 @@ window.addEventListener('load', function(){
       }
     }
 
-    ScrollMax = Score.len - GridCount;
-    //UI.scroll.disabled = false;
+    UI.scroll.max = ScrollMax = Score.len - GridCount;
+    UI.scroll.disabled = false;
     animeStop();
     //console.log(Score)
   });
@@ -546,11 +546,11 @@ window.addEventListener('load', function(){
       GameStatus = 1;
       RAF(animePlay);
       $(this).text('Pause');
-      //UI.scroll.disabled = true;
+      UI.scroll.disabled = true;
     }else{
       GameStatus = 0;
       $(this).text('Play');
-      //UI.scroll.disabled = false;
+      UI.scroll.disabled = false;
       March.lastTime = 0;
       March.scroll = 0;
     }
@@ -560,7 +560,7 @@ window.addEventListener('load', function(){
   $('#Stop').on('click', function(){
     Sound[17].play(8);
     animeStop();
-    //UI.scroll.disabled = false;
+    UI.scroll.disabled = false;
   });
 
   $('#Clear').on('click', function(){
@@ -596,48 +596,48 @@ window.addEventListener('load', function(){
   ScrollMax = Score.len - GridCount;
 
   //Scroll
-  //UI.scroll = document.querySelector('#Scroll');
-  //UI.scroll.max = ScrollMax;
-  //UI.scroll.min = 0;
-  //UI.scroll.value = 0;
-  //UI.scroll.step = 1;
-  //UI.scroll.addEventListener('input', function(e) {
-  //  March.pos = ScrollX = parseInt(this.value);
-  //  March.x = 0;
-  //  March.lastTime = 0;
-  //  March.scroll = 0;
-  //});
-  //$('#ArrowLeft').on('click', function(e){
-  //  e.preventDefault();
-  //  if(UI.scroll.min < ScrollX){
-  //    ScrollX--;
-  //    UI.scroll.value = March.pos = ScrollX;
-  //    March.x = 0;
-  //    March.lastTime = 0;
-  //    March.scroll = 0;
-  //  }
-  //});
-  //$('#ArrowRight').on('click', function(e){
-  //  e.preventDefault();
-  //  if(UI.scroll.max > ScrollX){
-  //    ScrollX++;
-  //    UI.scroll.value = March.pos = ScrollX;
-  //    March.x = 0;
-  //    March.lastTime = 0;
-  //    March.scroll = 0;
-  //  }
-  //});
+  UI.scroll = document.querySelector('#Scroll');
+  UI.scroll.max = ScrollMax;
+  UI.scroll.min = 0;
+  UI.scroll.value = 0;
+  UI.scroll.step = 1;
+  UI.scroll.addEventListener('input', function(e) {
+    March.pos = ScrollX = parseInt(this.value);
+    March.x = 0;
+    March.lastTime = 0;
+    March.scroll = 0;
+  });
+  $('#ArrowLeft').on('click', function(e){
+    e.preventDefault();
+    if(UI.scroll.min < ScrollX){
+      ScrollX--;
+      UI.scroll.value = March.pos = ScrollX;
+      March.x = 0;
+      March.lastTime = 0;
+      March.scroll = 0;
+    }
+  });
+  $('#ArrowRight').on('click', function(e){
+    e.preventDefault();
+    if(UI.scroll.max > ScrollX){
+      ScrollX++;
+      UI.scroll.value = March.pos = ScrollX;
+      March.x = 0;
+      March.lastTime = 0;
+      March.scroll = 0;
+    }
+  });
 
   //Track
   Track.color = $(".TrackColor").map(function(){ return $(this).val() }).get();
-  //Track.track = $("[name=track]:checked").val();
-  //Track.show = $("[name=show]:checked").map(function(){ return $(this).val() }).get();
-  //$("[name=track]").on('change', function(){
-  //  Track.track = $("[name=track]:checked").val();
-  //});
-  //$("[name=show]").on('change', function(){
-  //  Track.show = $("[name=show]:checked").map(function(){ return $(this).val() }).get();
-  //});
+  Track.track = $("[name=track]:checked").val();
+  Track.show = $("[name=show]:checked").map(function(){ return $(this).val() }).get();
+  $("[name=track]").on('change', function(){
+    Track.track = $("[name=track]:checked").val();
+  });
+  $("[name=show]").on('change', function(){
+    Track.show = $("[name=show]:checked").map(function(){ return $(this).val() }).get();
+  });
   //console.log(Track)
 
   //March

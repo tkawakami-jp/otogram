@@ -7,44 +7,46 @@
 <div class="row">
 <div class="medium-6 medium-centered columns">
 
-  <h2 style="margin-bottom:0.75rem"><%= @score.name %></h2>
+  <h2><%= @score.name %></h2>
 
-  <div class="text-center" style="margin-bottom:1rem;">
-    <div id="Frame"><canvas id="Canvas"></canvas></div>
+  <div id="Frame"><canvas id="Canvas"></canvas></div>
 
-    <p>
-    <button type="button" id="Play" class="button radius tiny">Play</button>
-    <button type="button" id="Stop" class="button radius tiny">Stop</button>
-    </p>
-
-    <p>
-    <%= link_to "https://twitter.com/intent/tweet?text=#{@score.name}｜&url=#{score_url(@score)}",target:"_blank" do %><i class="fa fa-twitter-square fa-lg" style="color:#fff;"><span class="text-small">ツイート</span></i><% end %>
-    <%= link_to "http://www.facebook.com/sharer.php?u=#{score_url(@score)}",target:"_blank" do %><i class="fa fa-facebook-square fa-lg" style="color:#fff;"><span class="text-small">シェア</span></i><% end %>
-    </p>
-
-    <% @score.notes.order('id').each_with_index do |note, i| %>
-      <input type="hidden" class="TrackColor" value="<%= i+1 %>">
-      <input type="hidden" id="data<%= i+1 %>" value="<%= note.data %>">
-    <% end %>
+  <div class="text-center" style="margin-bottom:0.75rem;">
+    <a href="#" id="ArrowLeft" style="vertical-align: middle;"><i class="fa fa-arrow-circle-o-left fa-lg"></i></a>
+    <input type="range" id="Scroll">
+    <a href="#" id="ArrowRight" style="vertical-align: middle;"><i class="fa fa-arrow-circle-o-right fa-lg"></i></a>
   </div>
 
-  <p>
+  <div class="text-center" style="margin-bottom:0.75rem;">
+    <button type="button" id="Play" class="button radius tiny" style="margin-bottom:0;">Play</button>
+    <button type="button" id="Stop" class="button radius tiny" style="margin-bottom:0;">Stop</button>
+  </div>
+
+  <ul>
+    <% @score.notes.order('id').each_with_index do |note, i| %>
+    <li style="margin-bottom:0.75rem;font-size:0.75rem;">
+      <strong>Track<%= i+1 %></strong>
+      <label><input type="checkbox" name="show" value="<%= i+1 %>" checked="checked" style="vertical-align:0;margin-bottom:0;">演奏</label>
+      <span>created by </span><strong><%= note.user.username %></strong>
+    </li>
+    <input type="hidden" class="TrackColor" value="<%= i+1 %>">
+    <input type="hidden" id="data<%= i+1 %>" value="<%= note.data %>">
+    <% end %>
+  </ul>
+
+  <div class="text-center" style="margin-bottom:0.75rem;">
+    <%= link_to "https://twitter.com/intent/tweet?text=#{@score.name}｜&url=#{score_url(@score)}",target:"_blank" do %><i class="fa fa-twitter-square fa-lg" style="color:#fff;"><span class="text-small">ツイート</span></i><% end %>
+    <%= link_to "http://www.facebook.com/sharer.php?u=#{score_url(@score)}",target:"_blank" do %><i class="fa fa-facebook-square fa-lg" style="color:#fff;"><span class="text-small">シェア</span></i><% end %>
+  </div>
+
+  <div class="text-center" style="margin-bottom:0.75rem;">
     <% if user_signed_in? %>
       <span class="text-small"><%= link_to '共同編集', edit_score_path(@score) %></span>
     <% end %>
     <% if current_user == @score.owner %>
       <span class="text-small"><%= link_to '削除', @score, method: :delete, data: { confirm: '本当に削除しますか？' } %></span>
     <% end %>
-  </p>
-  <p><span class="text-small">created by </span><strong><%= link_to @score.owner.username, user_path(@score.owner.username) %></strong></p>
-  <p>
-    <% @score.notes.each do |collaborators| %>
-      <% if collaborators.user.present? && @score.owner != collaborators.user %>
-        <span class="text-small">collaborators</span>
-        <strong><%= link_to collaborators.user.username, user_path(collaborators.user.username) %></strong>
-      <% end %>
-    <% end %>
-  </p>
+  </div>
 
 </div>
 </div>
